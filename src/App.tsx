@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {getHotShowing} from "./api";
 
 class App extends Component {
   render() {
+
+    getHotShowing()
+    .then(({data})=>{
+      console.log(data);
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+
     return (
       <div className="App">
         <header className="App-header">
