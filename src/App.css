@@ -6,8 +6,7 @@ body{
 }
 
 .App {
-  width:1000px;
-  margin:0 auto;
+  
 }
 
 .App-logo {
@@ -46,7 +45,10 @@ body{
 }
 
 /* Home */
-
+.page-home{
+  width:1000px;
+  margin:0 auto;
+}
 .new_movie-card{
   float: left;
   width: 15.8%;
@@ -72,4 +74,49 @@ body{
   width:auto;
   height: auto;
   transform: translate(-50%,-50%);
+}
+
+/* Detail */
+.poster-box{
+  height: 320px;
+  background-color: #2d2e36;
+}
+.profile{
+  position: relative;
+  padding:100px 10%;
+}
+.profile-img{
+  width: 200px;
+  box-shadow: 2px 2px 3px 0px #121111;
+}
+.profile-img img{
+  width: 100%;
+  height: auto;
+}
+.profile-info{
+  margin:50px 0;
+}
+.profile-info .tags{
+  margin:10px 0;
+}
+.video_summary{
+  margin:20px 0;
+}
+.profile-rate{
+  position: absolute;
+  top:100px;
+  right:10%;
+}
+.profile-rate .rate{
+  color:#ff6428;
+}
+.profile-rate .rate .units{
+  font-size: 72px;
+}
+.profile-rate .rate .decimal{
+  font-size: 54px;
+}
+.profile-rate .box{
+  color:#fff;
+  font-size: 1rem;
 }
