@@ -12,8 +12,10 @@ let instance = axios.create({
 });
 
 // 热映
-export function getHotShowing() {
-    return instance.get("/in_theaters");
+export function getHotShowing(params?:any) {
+    return instance.get("/in_theaters",{
+        params
+    });
 }
 
 // top250
@@ -28,5 +30,5 @@ export function getNew() {
 
 // 电影详情
 export function getDetail(id: string) {
-    return instance.get(id);
+    return instance.get(`/subject/${id}`);
 }

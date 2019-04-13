@@ -1,6 +1,6 @@
 import React from "react";
-import { Card } from 'antd';
-import { getHotShowing } from "../api";
+import { Card, Tag } from 'antd';
+import { getHotShowing, getNew } from "../api";
 import { Link } from 'react-router-dom';
 
 
@@ -30,9 +30,10 @@ function CardComp(props: any) {
                 <Link to={`/detail/${data.id}`}><img src={data.images.small} /></Link>
             }
         >
+            <Tag color="#f50" className="img-tag">{data.rating.average}</Tag>
             <Card.Meta
                 title={data.title}
-                description="www.douban.com"
+                description={data.genres.join("/")}
             />
         </Card>
     );
@@ -41,11 +42,28 @@ function CardComp(props: any) {
 class Home extends React.Component {
     constructor(props: any) {
         super(props);
+        let mockData = new Array(6).fill(1);
         this.state = {
-            newMovieList: new Array(6).fill(1),
+            hotShowList: mockData,
+            newMovieList: mockData,
+            isLoadingHotShow: true,
             isLoadingNewMovie: true,
         };
-        getHotShowing()
+
+        getHotShowing({
+            start: 0,
+            count: 12,
+        })
+            .then(({ data }) => {
+                let { subjects } = data;
+
+                this.setState({
+                    hotShowList: subjects,
+                    isLoadingHotShow: false,
+                });
+            });
+
+        getNew()
             .then(({ data }) => {
                 let { subjects } = data;
 
@@ -53,24 +71,45 @@ class Home extends React.Component {
                     newMovieList: subjects,
                     isLoadingNewMovie: false,
                 });
-            })
+            });
     }
     render() {
-        let { newMovieList, isLoadingNewMovie } = (this.state as any);
+        let {
+            hotShowList,
+            newMovieList,
+            isLoadingHotShow,
+            isLoadingNewMovie
+        } = (this.state as any);
         return (
             <div className="page page-home">
-                <div className="line-raw">
-                    <h2 className="raw-title">新片榜</h2>
+                <div className="block clearfix">
+                    <div className="line-raw">
+                        <h2 className="raw-title">正在热映</h2>
+                    </div>
+                    {hotShowList.map((item: any, index: number) => {
+                        return (
+                            <CardComp
+                                key={index}
+                                data={item}
+                                isLoading={isLoadingHotShow}
+                            />
+                        );
+                    })}
                 </div>
-                {newMovieList.map((item: any, index: number) => {
-                    return (
-                        <CardComp
-                            key={index}
-                            data={item}
-                            isLoading={isLoadingNewMovie}
-                        />
-                    );
-                })}
+                <div className="block clearfix">
+                    <div className="line-raw">
+                        <h2 className="raw-title">新片榜</h2>
+                    </div>
+                    {newMovieList.map((item: any, index: number) => {
+                        return (
+                            <CardComp
+                                key={index}
+                                data={item}
+                                isLoading={isLoadingNewMovie}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         );
     }

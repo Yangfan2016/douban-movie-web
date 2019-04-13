@@ -14,3 +14,11 @@
 ```html
 <meta name="referrer" content="never">
 ```
+
+## Bug
+
+- 需要等待所有图片加载完，才能获取到宽度
+
+## Todo
+
+- 需要在组件卸载时，取消请求，和其他异步任务，订阅事件
