@@ -32,3 +32,10 @@ export function getNew() {
 export function getDetail(id: string) {
     return instance.get(`/subject/${id}`);
 }
+
+// 北美票房榜
+export function getGoodbox() {
+    return instance.get("/us_box");
+}
+
+
