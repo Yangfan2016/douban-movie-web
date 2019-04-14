@@ -1,0 +1,155 @@
+.poster-box{
+height: 320px;
+background-color: var(--backColor);
+}
+.profile{
+position: relative;
+padding:100px 10%;
+}
+.profile .block{
+margin:0 0 50px 0;
+}
+.profile-img{
+width: 200px;
+box-shadow: 2px 2px 3px 0px #121111;
+}
+.profile-img img{
+width: 100%;
+height: auto;
+}
+.profile-info .tags{
+margin:10px 0;
+}
+.video_summary{
+margin:20px 0;
+}
+.profile-rate{
+position: absolute;
+top:100px;
+right:10%;
+}
+.profile-rate .rate{
+color: var(--hoverColor);
+}
+.profile-rate .rate .units{
+font-size: 72px;
+}
+.profile-rate .rate .decimal{
+font-size: 54px;
+}
+.profile-rate .box{
+color:#fff;
+font-size: 1rem;
+}
+.photos-box{
+overflow-x:auto;
+overflow-y:hidden;
+height: 200px; 
+}
+.box-gallery {
+width: 2000px;
+height: 200px;
+}
+.gallery-img{
+position: relative;
+float: left;
+height: 100%;
+border-right: 5px solid #fff;
+}
+.gallery-img:last-of-type{
+border-right:none;
+}
+.gallery-img img{
+width: auto;
+height: 100%;
+}
+.gallery-img .img-icon{
+position: absolute;
+top:50%;
+left: 50%;
+transform: translate(-50%,-50%);
+font-size: 2rem;
+color: #fff;
+}
+.movie-card .img-tag,
+.gallery-img .img-tag{
+position: absolute;
+top:5px;
+left:5px;
+}
+.container-video{
+padding: 0 10%;
+}
+.video-box{
+position: relative;
+}
+.video-box video{
+width:700px;
+height: 400px;
+background-color: #000;
+}
+.box-list{
+position: absolute;
+top:0;
+right:0;
+bottom:0;
+width:calc(100% - 750px);
+padding: 0 0 0 15px;
+overflow-x:hidden;
+overflow-y:auto;
+}
+.box-list .list{
+
+}
+.box-list .list .list-item{
+cursor: pointer;
+}
+.box-list .list .list-item img{
+width:200px;
+height: auto;
+}
+.drawer-in{
+top:100%;
+transition: top 1s ease;
+}
+.drawer-fixed-bottom{
+position: fixed;
+top:460px; /* The width of top drawer */
+left: 0;
+bottom: 0;
+width: 100%;
+z-index: 1001;
+background-color: #FFF;
+padding: 10px 10%;
+overflow: auto;
+}
+  
+  
+.profile-img-loading{
+width: 200px;
+height: 280px;
+background-color: #f5f6f7;
+background-image: url("../assets/loading.svg");
+background-repeat: no-repeat;
+background-position: center;
+}
+
+  /* custom ant style */
+.custom-ant-rate{
+font-size: .7rem;
+margin:0 5px;
+}
+.cutsom-ant-comment{
+border-bottom: 1px solid #f0f0f0;
+}
+
+/* reset ant style */
+.ant-drawer .ant-drawer-content{
+background-color: var(--backColor);
+}
+.ant-drawer .ant-list-vertical .ant-list-item-meta-title{
+color: #fff;
+}
+.ant-drawer .ant-drawer-close{
+color:#fff;
+}

@@ -32,8 +32,7 @@
    - footer
 
 - detail (/:id)
-- play (预告片播放页)  
-
+- play (/:id) (预告片播放页)  
 - box  (/box)
 
 ```

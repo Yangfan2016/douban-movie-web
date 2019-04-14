@@ -1,62 +1,18 @@
 import React from "react";
-import { Card, Tag, Skeleton } from 'antd';
+import { Card, Tag } from 'antd';
 import { getHotShowing, getNew, getGoodbox } from "../api";
 import { Link } from 'react-router-dom';
-import loadingSvg from '../assets/loading.svg';
+import { CardListSkeleton, ListSkeleton } from "../skeletons/Home";
+import '../css/Home.css';
 
-function CardComp(props: any) {
-    let { isLoading, data } = props;
-
-    if (isLoading) {
-        return (
-            <Card
-                loading={true}
-                className="movie-card"
-                hoverable
-                cover={
-                    <div className="loading-img-box">
-                        <img src={loadingSvg} alt="loading" />
-                    </div>
-                }
-            />
-        );
-    }
-
-    return (
-        <Card
-            className="movie-card"
-            hoverable
-            cover={
-                <Link to={`/detail/${data.id}`}><img src={data.images.small} /></Link>
-            }
-        >
-            <Tag color="#f50" className="img-tag">{data.rating.average}</Tag>
-            <Card.Meta
-                title={data.title}
-                description={data.genres.join("/")}
-            />
-        </Card>
-    );
-}
-
-function ListComp() {
-    return (
-        <li className="goodbox-rate">
-            <Skeleton className="title" paragraph={false} />
-            <Skeleton className="summary" title={false} paragraph={{rows:1}} />
-            <span className="rank">0</span>
-            <span className="box">0 万</span>
-        </li>
-    );
-}
 
 class Home extends React.Component {
     constructor(props: any) {
         super(props);
         this.state = {
-            hotShowList: new Array(6).fill(1),
-            newMovieList: new Array(4).fill(1),
-            goodBoxList: new Array(2).fill(1),
+            hotShowList: [],
+            newMovieList: [],
+            goodBoxList: [],
             boxLastDate: "",
             isLoadingHotShow: true,
             isLoadingNewMovie: true,
@@ -107,6 +63,7 @@ class Home extends React.Component {
             isLoadingNewMovie,
             isLoadingGoodBox,
         } = (this.state as any);
+
         return (
             <div className="page page-home">
                 <div className="block block-hotshow">
@@ -114,15 +71,27 @@ class Home extends React.Component {
                         <h2 className="raw-title">正在热映</h2>
                     </div>
                     <div className="cards-box clearfix">
-                        {hotShowList.map((item: any, index: number) => {
-                            return (
-                                <CardComp
-                                    key={index}
-                                    data={item}
-                                    isLoading={isLoadingHotShow}
-                                />
-                            );
-                        })}
+                        {
+                            isLoadingHotShow ?
+                                <CardListSkeleton column={6} /> :
+                                hotShowList.map((item: any, index: number) => {
+                                    return (
+                                        <Card
+                                            key={index}
+                                            className="movie-card"
+                                            hoverable
+                                            cover={
+                                                <Link to={`/detail/${item.id}`}><img src={item.images.small} /></Link>
+                                            }
+                                        >
+                                            <Tag color="#f50" className="img-tag">{item.rating.average}</Tag>
+                                            <Card.Meta
+                                                title={item.title}
+                                                description={item.genres.join("/")}
+                                            />
+                                        </Card>
+                                    );
+                                })}
                     </div>
                 </div>
                 <div className="block block-newmovie">
@@ -130,15 +99,27 @@ class Home extends React.Component {
                         <h2 className="raw-title">新片榜</h2>
                     </div>
                     <div className="cards-box clearfix">
-                        {newMovieList.map((item: any, index: number) => {
-                            return (
-                                <CardComp
-                                    key={index}
-                                    data={item}
-                                    isLoading={isLoadingNewMovie}
-                                />
-                            );
-                        })}
+                        {
+                            isLoadingNewMovie ?
+                                <CardListSkeleton column={4} /> :
+                                newMovieList.map((item: any, index: number) => {
+                                    return (
+                                        <Card
+                                            key={index}
+                                            className="movie-card"
+                                            hoverable
+                                            cover={
+                                                <Link to={`/detail/${item.id}`}><img src={item.images.small} /></Link>
+                                            }
+                                        >
+                                            <Tag color="#f50" className="img-tag">{item.rating.average}</Tag>
+                                            <Card.Meta
+                                                title={item.title}
+                                                description={item.genres.join("/")}
+                                            />
+                                        </Card>
+                                    );
+                                })}
                     </div>
                     <div className="rate-box">
                         <div className="line-raw">
@@ -147,11 +128,9 @@ class Home extends React.Component {
                         </div>
                         <ul className="goodbox">
                             {
+                                isLoadingGoodBox?
+                                <ListSkeleton row={2} />:
                                 goodBoxList.map((item: any, index: number) => {
-                                    if (isLoadingGoodBox) {
-                                        return <ListComp key={index} />;
-                                    }
-
                                     let { rank, box, subject } = item;
                                     let { title, id, rating, collect_count } = subject;
                                     let { average } = rating;

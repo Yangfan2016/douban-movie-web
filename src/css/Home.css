@@ -1,0 +1,85 @@
+.page-home{
+width:1000px;
+margin:0 auto;
+}
+.page-home .block{
+margin:0 0 50px 0;
+}
+.cards-box .movie-card{
+width:160px;
+float: left;
+margin:10px 8px 10px 0;
+}
+.movie-card:nth-of-type(6n){
+margin-right:0;
+}
+.loading-img-box,
+.movie-card img{
+width:100%;
+height:180px;
+}
+.loading-img-box{
+position: relative;
+background-color: #f5f6f7;
+cursor: not-allowed;
+}
+.loading-img-box img{
+position: absolute;
+top:50%;
+left:50%;
+width:auto;
+height: auto;
+transform: translate(-50%,-50%);
+}
+.block-newmovie{
+position: relative;
+}
+.block-newmovie .cards-box{
+width:70%;
+}
+.rate-box{
+position: absolute;
+top:0;
+right:0;
+width:32%;
+}
+.rate-box .goodbox{
+background-color: #f8f8f8;
+}
+.rate-box .goodbox .goodbox-rate{
+position: relative;
+margin:10px 20px;
+padding:10px 50px;
+border-top: 1px solid #eee;
+}
+.rate-box .goodbox .goodbox-rate .title{
+font-size: .9rem;
+font-weight: 800;
+}
+.rate-box .goodbox .goodbox-rate .title:hover{
+color: var(--hoverColor);
+}
+.rate-box .goodbox .goodbox-rate .rank{
+position: absolute;
+top:0;
+left:0;
+font-size: 2rem;
+color:#666;
+}
+.rate-box .goodbox .goodbox-rate:nth-of-type(-n+3) .rank{
+-webkit-text-fill-color: transparent;
+background-clip: text;
+background-image: linear-gradient(180deg,#ffb821 0,#ff5c38 45%,#ff1459); 
+}
+.rate-box .goodbox .goodbox-rate .box{
+position: absolute;
+top: 10px;
+right: 0;
+color: #999;
+}
+.rate-box .goodbox .goodbox-rate .summary{
+color: #999;
+}
+.rate-box .goodbox .goodbox-rate .box-new{
+color: var(--highlightColor);
+}
