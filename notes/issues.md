@@ -7,6 +7,17 @@
 
 - 引入 `react-router-dom` 需要设置 `declare module 'react-router-dom';`
 
+## React
+
+- 为何 背景图 引入不显示
+```jsx
+import bgImg from '../images/bg.jpg';
+<div
+    style={{
+        backgroundImage: `url("${bgImg}")`,
+    }}>
+</div>
+```
 
 ## Learn
 - 图片防盗链的解决办法，[原因](https://www.cnblogs.com/liuxiaopi/p/8084896.html) [规范](https://html.spec.whatwg.org/multipage/semantics.html#meta-referrer)

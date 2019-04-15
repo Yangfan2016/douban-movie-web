@@ -1,22 +1,71 @@
+.header{
+    margin:0 0 50px 0;
+}
+.header .header-bar{
+    position: fixed;
+    top:0;
+    width:100%;
+    padding: 10px 0;
+    z-index:1;
+    background-color: rgba(255,255,255,.85);
+}
+.bar-container{
+    margin:0 10%;
+}
+.header .header-bar .logo{
+    display: inline-block;
+    width: 125px;
+    height: 25px;
+    background-image: url("../assets/douban-logo.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.header .header-bar .search{
+    float: right;
+}
+.header .header-banner{
+    background-image: url(../assets/banner-blur-bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.header .header-banner .banner-item{
+    height: 100%;
+}
+.header .header-banner .banner-item img{
+    display: initial;
+    width:100%;
+    height:100%;
+}
 .page-home{
-width:1000px;
+width:80%;
 margin:0 auto;
 }
 .page-home .block{
 margin:0 0 50px 0;
 }
-.cards-box .movie-card{
-width:160px;
-float: left;
+.cards-box .card-container{
+width: var(--oneOfSix);
+display: inline-block;
+}
+.block-newmovie .card-container{
+width:25%;
+}
+.movie-card{
 margin:10px 8px 10px 0;
 }
-.movie-card:nth-of-type(6n){
+.block-hotshow .movie-card:nth-of-type(6n){
 margin-right:0;
+}
+.movie-card .ant-card-body{
+padding: 5px 10px;
+}
+.movie-card .ant-card-body .ant-card-meta-detail > div:not(:last-child){
+    margin:0;
 }
 .loading-img-box,
 .movie-card img{
 width:100%;
-height:180px;
+height:300px;
 }
 .loading-img-box{
 position: relative;
@@ -35,7 +84,7 @@ transform: translate(-50%,-50%);
 position: relative;
 }
 .block-newmovie .cards-box{
-width:70%;
+width:calc(var(--oneOfSix) * 4);
 }
 .rate-box{
 position: absolute;

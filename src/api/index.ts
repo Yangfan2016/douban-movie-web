@@ -38,4 +38,3 @@ export function getGoodbox() {
     return instance.get("/us_box");
 }
 
-

@@ -92,13 +92,17 @@ class Detail extends React.Component {
                         <div className="profile">
                             <div className="profile-rate">
                                 <div className="rate">
-                                    <span className="units">{detailData.$units}.</span>
-                                    <span className="decimal">{detailData.$decimal}</span>
+                                    <span className="units">{detailData.$units}</span>
+                                    {
+                                        detailData.$units > 0 &&
+                                        <span className="decimal">.{detailData.$decimal}</span>
+                                    }
                                 </div>
                                 <Statistic
                                     title="评价人数"
                                     value={detailData.ratings_count}
                                     className="box" />
+                                <h2 className="title">{detailData.original_title}</h2>
                             </div>
                             <div className="block profile-img">
                                 <img src={detailData.images.small} alt="" />
@@ -108,7 +112,7 @@ class Detail extends React.Component {
                                 <div className="tags">
                                     {
                                         detailData.tags.map((tag: string, index: number) => {
-                                            return <Tag color="#080" key={index}>{tag}</Tag>
+                                            return <Tag className="tag-text" key={index}>{tag}</Tag>
                                         })
                                     }
                                 </div>
