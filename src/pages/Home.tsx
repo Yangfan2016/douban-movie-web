@@ -1,6 +1,6 @@
 import React from "react";
-import { Card, Tag, Carousel, Input } from 'antd';
-import { getHotShowing, getNew, getGoodbox } from "../api";
+import { Card, Tag, Carousel, Icon } from 'antd';
+import { getHotShowing, getNew, getGoodbox, getContentBySearch } from "../api";
 import { Link } from 'react-router-dom';
 import { CardListSkeleton, ListSkeleton } from "../skeletons/Home";
 import '../css/Home.css';
@@ -20,17 +20,20 @@ class Home extends React.Component {
             hotShowList: [],
             newMovieList: [],
             goodBoxList: [],
+            suggestList: [],
             boxLastDate: "",
+            searchStr: "",
             isLoadingHotShow: true,
             isLoadingNewMovie: true,
             isLoadingGoodBox: true,
+            isShowSuggestList: false,
         };
 
         getHotShowing({
             start: 0,
             count: 12,
         })
-            .then(({ data }:any) => {
+            .then(({ data }: any) => {
                 let { subjects } = data;
 
                 this.setState({
@@ -40,7 +43,7 @@ class Home extends React.Component {
             });
 
         getNew()
-            .then(({ data }:any) => {
+            .then(({ data }: any) => {
                 let { subjects } = data;
 
                 this.setState({
@@ -50,7 +53,7 @@ class Home extends React.Component {
             });
 
         getGoodbox()
-            .then(({ data }:any) => {
+            .then(({ data }: any) => {
                 let { subjects, date } = data;
 
                 this.setState({
@@ -59,6 +62,33 @@ class Home extends React.Component {
                     isLoadingGoodBox: false,
                 });
             });
+
+
+    }
+    toggleSuggestList = (isShow: boolean) => {
+        this.setState({
+            isShowSuggestList: isShow,
+        });
+    }
+    getSearch = (ev: any) => {
+        let { searchStr }: any = this.state;
+        let value = ev.target.value;
+        this.setState({
+            searchStr: value,
+        });
+        // TODO debounce  
+        // close showlist
+        getContentBySearch(value, {
+            count: 5,
+        })
+            .then(({ data }: any) => {
+                let { subjects } = data;
+
+                this.setState({
+                    suggestList: subjects,
+                });
+            });
+
     }
     render() {
         let {
@@ -66,10 +96,13 @@ class Home extends React.Component {
             newMovieList,
             goodBoxList,
             boxLastDate,
+            suggestList,
+            searchStr,
             isLoadingHotShow,
             isLoadingNewMovie,
             isLoadingGoodBox,
-        } = (this.state as any);
+            isShowSuggestList,
+        }: any = this.state;
 
         // temp
         let bannerList = [
@@ -87,10 +120,32 @@ class Home extends React.Component {
                         <div className="bar-container">
                             <div className="logo"></div>
                             <div className="search">
-                                <Input.Search
-                                    placeholder="王牌对王牌 第4季"
-                                    onSearch={(value:string) => console.log(value)}
-                                    style={{ width: 200 }} />
+                                <div className="search-box">
+                                    <div className="search-btn">
+                                        <Icon type="search" />
+                                        <span>全网搜</span>
+                                    </div>
+                                    <input className="search-input" placeholder="王牌对王牌 第4季"
+                                        value={searchStr}
+                                        onChange={this.getSearch}
+                                        onFocus={this.toggleSuggestList.bind(this, true)} />
+                                </div>
+                                <ul className="search-list" style={{
+                                    "display": isShowSuggestList ? "block" : "none",
+                                }}>
+                                    <li className="list-item">
+                                        {
+                                            suggestList.map((item: any, index: number) => {
+                                                return (
+                                                    <Link to={`/detail/${item.id}`} key={index}>
+                                                        <h5 className="title">{item.title}</h5>
+                                                        <p className="origin_title">{item.original_title}</p>
+                                                    </Link>
+                                                );
+                                            })
+                                        }
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -101,7 +156,7 @@ class Home extends React.Component {
                                     <div
                                         className="banner-item"
                                         key={index}>
-                                        <img src={item} alt="" />
+                                        <img src={item} alt="banner" />
                                     </div>
                                 );
                             })}

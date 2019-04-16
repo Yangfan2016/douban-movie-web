@@ -9,15 +9,13 @@
 
 ## React
 
-- 为何 背景图 引入不显示
-```jsx
-import bgImg from '../images/bg.jpg';
-<div
-    style={{
-        backgroundImage: `url("${bgImg}")`,
-    }}>
-</div>
-```
+- 为何 背景图 引入不显示   
+
+原因 ant-design 引用的 react-slick 将根元素的 style 样式覆盖了   
+源码 https://github.com/akiran/react-slick/blob/master/src/slider.js#L184  
+复现 demo https://codesandbox.io/s/92n1x0w1my  
+
+
 
 ## Learn
 - 图片防盗链的解决办法，[原因](https://www.cnblogs.com/liuxiaopi/p/8084896.html) [规范](https://html.spec.whatwg.org/multipage/semantics.html#meta-referrer)

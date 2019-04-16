@@ -6,14 +6,14 @@ const API_KEY = "0b2bdeda43b5688921839c8ecb20399b";
 let instance = axios.create({
     baseURL: BASE_URL,
     timeout: 3e4,
-    params:{
+    params: {
         "apikey": API_KEY,
     }
 });
 
 // 热映
-export function getHotShowing(params?:any) {
-    return instance.get("/in_theaters",{
+export function getHotShowing(params?: any) {
+    return instance.get("/in_theaters", {
         params
     });
 }
@@ -38,3 +38,9 @@ export function getGoodbox() {
     return instance.get("/us_box");
 }
 
+// 搜索条目
+export function getContentBySearch(str: string, params?: any) {
+    return instance.get(`/search?q=${str}`, {
+        params
+    });
+}

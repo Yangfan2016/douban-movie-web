@@ -1,3 +1,21 @@
+/* reset.css */
+ul{
+  list-style: none;
+}
+body,
+div,p,
+span,
+a,img,
+ul,ol,
+h1,h2,h3,h4,h5,h6{
+  padding: 0;
+  margin: 0;
+}
+
+
+
+
+
 :root{
   --hoverColor:#ff5c38;
   --highlightColor:#f00;
@@ -13,14 +31,6 @@ html{
 body{
   font-family: numFont, PingFangSC-Regular, Tahoma, "Microsoft Yahei", sans-serif;
 }
-ul{
-  list-style: none;
-}
-ul{
-  padding: 0;
-  margin: 0;
-}
-
 .clearfix:after{
   content: "";
   clear: both;
