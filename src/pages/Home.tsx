@@ -30,7 +30,7 @@ class Home extends React.Component {
             start: 0,
             count: 12,
         })
-            .then(({ data }) => {
+            .then(({ data }:any) => {
                 let { subjects } = data;
 
                 this.setState({
@@ -40,7 +40,7 @@ class Home extends React.Component {
             });
 
         getNew()
-            .then(({ data }) => {
+            .then(({ data }:any) => {
                 let { subjects } = data;
 
                 this.setState({
@@ -50,7 +50,7 @@ class Home extends React.Component {
             });
 
         getGoodbox()
-            .then(({ data }) => {
+            .then(({ data }:any) => {
                 let { subjects, date } = data;
 
                 this.setState({
@@ -89,7 +89,7 @@ class Home extends React.Component {
                             <div className="search">
                                 <Input.Search
                                     placeholder="王牌对王牌 第4季"
-                                    onSearch={value => console.log(value)}
+                                    onSearch={(value:string) => console.log(value)}
                                     style={{ width: 200 }} />
                             </div>
                         </div>
