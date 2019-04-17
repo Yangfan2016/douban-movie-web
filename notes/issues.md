@@ -14,7 +14,7 @@
 原因 ant-design 引用的 react-slick 将根元素的 style 样式覆盖了   
 源码 https://github.com/akiran/react-slick/blob/master/src/slider.js#L184  
 复现 demo https://codesandbox.io/s/92n1x0w1my  
-
+文章 https://yangfan2016.github.io
 
 
 ## Learn
