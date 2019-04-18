@@ -59,16 +59,49 @@
     top:100%;
     left:15px;
     right:15px;
-    padding: 5px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 28px 50px rgba(25,24,40,.35)
 }
-.header .header-bar .search-list .list-item{
+.header .header-bar .search-list .list-history .panel-title,
+.header .header-bar .search-list .list-hot .panel-title{
     padding:5px 10px;
+    color: #999;
+}
+
+.header .header-bar .search-list .list-item{
+    position: relative;
+    margin:5px 5px;
+    padding: 5px;
+    border-radius: 3px;
 }
 .header .header-bar .search-list .list-item:hover{
     background-color: #eee;
+}
+.list-history .list-item{
+    display: inline-block;
+}
+.header .header-bar .search-list .list-item .index{
+    display: inline-block;
+    background-color: #666;
+    color:#fff;
+    width:20px;
+    line-height: 20px;
+    margin:0 10px 0 0;
+    text-align: center;
+    border-radius: 3px;
+}
+.header .header-bar .search-list .list-item:nth-of-type(1) .index{
+    background-color: #ff183e;
+}
+.header .header-bar .search-list .list-item:nth-of-type(2) .index{
+    background-color: #ff5c38;
+}
+.header .header-bar .search-list .list-item:nth-of-type(3) .index{
+    background-color: #ffb821;
+}
+.header .header-bar .search-list .list-item .title{
+    color: #000;
 }
 
 .header .header-banner{

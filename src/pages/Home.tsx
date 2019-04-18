@@ -4,6 +4,7 @@ import { getHotShowing, getNew, getGoodbox, getContentBySearch } from "../api";
 import { Link } from 'react-router-dom';
 import { CardListSkeleton, ListSkeleton } from "../skeletons/Home";
 import '../css/Home.css';
+import * as _ from "lodash";
 
 // temp
 import imgBanner001 from '../assets/banner-001.jpg';
@@ -14,19 +15,22 @@ import imgBanner005 from '../assets/banner-005.jpg';
 
 
 class Home extends React.Component {
+    getSuggestionBySearch: (value: string) => any
     constructor(props: any) {
         super(props);
         this.state = {
-            hotShowList: [],
-            newMovieList: [],
-            goodBoxList: [],
-            suggestList: [],
+            hotShowList: [], // 热映
+            newMovieList: [], // 新片
+            goodBoxList: [], // 票房榜
+            suggestList: [], // 搜索建议
+            searchHistory: this.getSearchHistory().slice(0),
             boxLastDate: "",
             searchStr: "",
             isLoadingHotShow: true,
             isLoadingNewMovie: true,
             isLoadingGoodBox: true,
-            isShowSuggestList: false,
+            isShowSuggestBox: false,
+            isShowTipsPanel: true,
         };
 
         getHotShowing({
@@ -64,30 +68,61 @@ class Home extends React.Component {
             });
 
 
+        this.getSuggestionBySearch = this.getContentBySearchDebounce();
     }
     toggleSuggestList = (isShow: boolean) => {
         this.setState({
-            isShowSuggestList: isShow,
+            isShowSuggestBox: isShow,
         });
     }
+    getSearchHistory() {
+        const KEY = "SEARCH_H";
+        let cache = JSON.parse(localStorage.getItem(KEY) || "[]");
+        return cache;
+    }
+    addSearchHistory(item: any) {
+        const MAX_LEN_CACHE_SEARCH = 5;
+        const KEY = "SEARCH_H";
+        let cache=this.getSearchHistory().slice(0);
+
+        let isExist = cache.some((c: any) => {
+            return c.id === item.id;
+        });
+
+        if (!isExist) {
+            cache.unshift(item);
+            if (cache.length > MAX_LEN_CACHE_SEARCH) {
+                cache.pop();
+            }
+            localStorage.setItem(KEY, JSON.stringify(cache));
+        }
+    }
+    getContentBySearchDebounce() {
+        let comp = this;
+        return _.debounce(function (value) {
+            getContentBySearch(value, {
+                count: 5,
+            })
+                .then(({ data }: any) => {
+                    let { subjects } = data;
+                    comp.setState({
+                        suggestList: subjects,
+                    });
+                });
+        }, 5e2);
+    }
     getSearch = (ev: any) => {
-        let { searchStr }: any = this.state;
         let value = ev.target.value;
+        let str = value.trim();
+        let isValid = str.length > 0;
         this.setState({
             searchStr: value,
+            isShowTipsPanel: !isValid,
         });
-        // TODO debounce  
-        // close showlist
-        getContentBySearch(value, {
-            count: 5,
-        })
-            .then(({ data }: any) => {
-                let { subjects } = data;
 
-                this.setState({
-                    suggestList: subjects,
-                });
-            });
+
+        // close showlist
+        isValid && this.getSuggestionBySearch(str);
 
     }
     render() {
@@ -97,11 +132,13 @@ class Home extends React.Component {
             goodBoxList,
             boxLastDate,
             suggestList,
+            searchHistory,
             searchStr,
             isLoadingHotShow,
             isLoadingNewMovie,
             isLoadingGoodBox,
-            isShowSuggestList,
+            isShowTipsPanel,
+            isShowSuggestBox,
         }: any = this.state;
 
         // temp
@@ -114,7 +151,7 @@ class Home extends React.Component {
         ];
 
         return (
-            <>
+            <div onClick={ev => { this.toggleSuggestList(false) }}>
                 <div className="header">
                     <div className="header-bar">
                         <div className="bar-container">
@@ -128,24 +165,86 @@ class Home extends React.Component {
                                     <input className="search-input" placeholder="王牌对王牌 第4季"
                                         value={searchStr}
                                         onChange={this.getSearch}
+                                        onClick={ev => ev.stopPropagation()}
                                         onFocus={this.toggleSuggestList.bind(this, true)} />
                                 </div>
-                                <ul className="search-list" style={{
-                                    "display": isShowSuggestList ? "block" : "none",
-                                }}>
-                                    <li className="list-item">
-                                        {
-                                            suggestList.map((item: any, index: number) => {
-                                                return (
-                                                    <Link to={`/detail/${item.id}`} key={index}>
-                                                        <h5 className="title">{item.title}</h5>
-                                                        <p className="origin_title">{item.original_title}</p>
-                                                    </Link>
-                                                );
-                                            })
-                                        }
-                                    </li>
-                                </ul>
+                                <div className="search-list" style={
+                                    {
+                                        "display": isShowSuggestBox ? "block" : "none",
+                                    }
+                                }>
+                                    {
+                                        isShowTipsPanel ?
+                                            <div>
+                                                <div className="list-history" style={
+                                                    {
+                                                        "display": searchHistory.length > 0 ? "block" : "none",
+                                                    }
+                                                }>
+                                                    <h4 className="panel-title">历史记录</h4>
+                                                    <ul>
+                                                        {
+                                                            searchHistory.map((item: any, index: number) => {
+                                                                return (
+                                                                    <li className="list-item" key={index}>
+                                                                        <Link to={`/detail/${item.id}`}>
+                                                                            <h5 className="title">{item.title}</h5>
+                                                                        </Link>
+                                                                    </li>
+                                                                );
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+                                                <div className="list-hot">
+                                                    <h4 className="panel-title">热映</h4>
+                                                    <ul>
+                                                        {
+                                                            hotShowList.slice(0, 8).map((item: any, index: number) => {
+                                                                return (
+                                                                    <li className="list-item" key={index}>
+                                                                        <Link to={`/detail/${item.id}`}
+                                                                            onClick={(ev: any) => {
+                                                                                this.addSearchHistory({
+                                                                                    id: item.id,
+                                                                                    title: item.title,
+                                                                                });
+                                                                            }}>
+                                                                            <span className="index">{+index+1}</span>
+                                                                            <span className="title">{item.title}</span>
+                                                                        </Link>
+                                                                    </li>
+                                                                );
+                                                            })
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            :
+                                            <div className="list-suggest">
+                                                <ul>
+                                                    {
+                                                        suggestList.map((item: any, index: number) => {
+                                                            return (
+                                                                <li className="list-item" key={index}>
+                                                                    <Link to={`/detail/${item.id}`}
+                                                                        onClick={(ev: any) => {
+                                                                            this.addSearchHistory({
+                                                                                id: item.id,
+                                                                                title: item.title,
+                                                                            });
+                                                                        }}>
+                                                                        <h5 className="title">{item.title}</h5>
+                                                                        <p className="origin_title">{item.original_title}</p>
+                                                                    </Link>
+                                                                </li>
+                                                            );
+                                                        })
+                                                    }
+                                                </ul>
+                                            </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -264,7 +363,7 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         );
     }
 }
