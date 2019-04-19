@@ -1,18 +1,30 @@
-.header{
-    margin:0 0 50px 0;
+:root {
+    --rankFirst:#ff183e; --rankSecond:#ff5c38; --rankThird:#ffb821; --rankOther: #666; }
+
+.header {
+    position: relative;
+    margin: 0 0 50px 0;
 }
-.header .header-bar{
-    position: fixed;
+
+.header .header-bar {
+    position: absolute;
     top:0;
-    width:100%;
+    left:0;
+    width: 100%;
     padding: 10px 0;
-    z-index:1;
-    background-color: rgba(255,255,255,.8);
+    background-color: rgba(255,255,255,.14);
+    z-index: 2;
 }
-.bar-container{
-    margin:0 10%;
+.header .head-bar--fixed{
+    box-shadow: 0 28px 50px rgba(25,24,40,.35);
+    background-color: rgba(255, 255, 255, .95);
 }
-.header .header-bar .logo{
+
+.bar-container {
+    margin: 0 10%;
+}
+
+.header .header-bar .logo {
     display: inline-block;
     width: 125px;
     height: 25px;
@@ -20,197 +32,291 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
-.header .header-bar .search{
+
+.header .header-bar .search {
     float: right;
     position: relative;
 }
-.header .header-bar .search-box{
+
+.header .header-bar .search-box {
     float: right;
     height: 40px;
     border-radius: 20px;
-    background-color: rgba(63, 63, 63, 0.11);
+    background-color: rgba(255,255,255,.2);
+    box-shadow: 0 4px 18px rgba(17,18,38,.07);
+    border: 1px solid transparent; 
     overflow: hidden;
 }
-.header .header-bar .search-box .search-input,
-.header .header-bar .search-box .search-btn{
+.header .head-bar--fixed .search-box{
+    background-color: transparent;
+    box-shadow:none;
+    border-color: var(--hoverColor);
+}
+
+.header .header-bar .search-box .search-input, .header .header-bar .search-box .search-btn {
     float: right;
     height: 100%;
 }
-.header .header-bar .search-box .search-input{
+
+.header .header-bar .search-box .search-input {
     padding: 0 10px;
     margin: 0 0 0 20px;
     background-color: transparent;
-    border:none;
+    border: none;
     outline: none;
 }
-.header .header-bar .search-box .search-btn{
-    width:100px;
+
+.header .header-bar .search-box .search-btn {
+    width: 100px;
     text-align: center;
     line-height: 40px;
     background-color: var(--hoverColor);
     color: var(--foreColor);
     cursor: pointer;
 }
-.header .header-bar .search-box .search-btn:hover{
+
+.header .header-bar .search-box .search-btn:hover {
     background-color: var(--highlightColor);
 }
-.header .header-bar .search-list{
+
+.header .header-bar .search-list {
     position: absolute;
-    top:100%;
-    left:15px;
-    right:15px;
+    top: 100%;
+    left: 15px;
+    right: 15px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 28px 50px rgba(25,24,40,.35)
 }
-.header .header-bar .search-list .list-history .panel-title,
-.header .header-bar .search-list .list-hot .panel-title{
-    padding:5px 10px;
+
+.header .header-bar .search-list .list-history .panel-title, .header .header-bar .search-list .list-hot .panel-title {
+    padding: 5px 10px;
     color: #999;
 }
 
-.header .header-bar .search-list .list-item{
+.header .header-bar .search-list .list-item {
     position: relative;
-    margin:5px 5px;
+    margin: 5px 5px;
     padding: 5px;
     border-radius: 3px;
 }
-.header .header-bar .search-list .list-item:hover{
+
+.header .header-bar .search-list .list-item:hover {
     background-color: #eee;
 }
-.list-history .list-item{
+
+.list-history .list-item {
     display: inline-block;
 }
-.header .header-bar .search-list .list-item .index{
+
+.header .header-bar .search-list .list-item .index {
     display: inline-block;
-    background-color: #666;
-    color:#fff;
-    width:20px;
+    background-color: var(--rankOther);
+    color: #fff;
+    width: 20px;
     line-height: 20px;
-    margin:0 10px 0 0;
+    margin: 0 10px 0 0;
     text-align: center;
     border-radius: 3px;
 }
-.header .header-bar .search-list .list-item:nth-of-type(1) .index{
-    background-color: #ff183e;
+
+.block-weekly .weekly-box .card-container:nth-of-type(1) .dot::before, .block-weekly .weekly-box .card-container:nth-of-type(1) .dot::after, .header .header-bar .search-list .list-item:nth-of-type(1) .index {
+    background-color: var(--rankFirst);
 }
-.header .header-bar .search-list .list-item:nth-of-type(2) .index{
-    background-color: #ff5c38;
+
+.block-weekly .weekly-box .card-container:nth-of-type(2) .dot::before, .block-weekly .weekly-box .card-container:nth-of-type(2) .dot::after, .header .header-bar .search-list .list-item:nth-of-type(2) .index {
+    background-color: var(--rankSecond);
 }
-.header .header-bar .search-list .list-item:nth-of-type(3) .index{
-    background-color: #ffb821;
+
+.block-weekly .weekly-box .card-container:nth-of-type(3) .dot::before, .block-weekly .weekly-box .card-container:nth-of-type(3) .dot::after, .header .header-bar .search-list .list-item:nth-of-type(3) .index {
+    background-color: var(--rankThird);
 }
-.header .header-bar .search-list .list-item .title{
+
+.header .header-bar .search-list .list-item .title {
     color: #000;
 }
 
-.header .header-banner{
+.header .header-banner {
     background-image: url(../assets/banner-blur-bg.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
-.header .header-banner .banner-item{
-    /* height: 100%; */
-    height:420px;
+
+.header .header-banner .banner-item {
+    height: 500px;
 }
-.header .header-banner .banner-item img{
+
+.header .header-banner .banner-item img {
     display: initial;
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 }
-.page-home{
-width:80%;
-margin:0 auto;
+
+.page-home {
+    width: 80%;
+    margin: 0 auto;
 }
-.page-home .block{
-margin:0 0 50px 0;
+
+.page-home .block {
+    margin: 0 0 50px 0;
 }
-.cards-box .card-container{
-width: var(--oneOfSix);
-display: inline-block;
+
+.block-weekly .weekly-box {
+    margin: 50px 0 0 0;
+    border-top: 1px solid #f0f0f0;
+    text-align: center;
 }
-.block-newmovie .card-container{
-width:25%;
+
+.cards-box .card-container {
+    width: var(--oneOfSix);
+    display: inline-block;
 }
-.movie-card{
-margin:10px 8px 10px 0;
+
+.block-newmovie .card-container {
+    width: 25%;
 }
-.block-hotshow .movie-card:nth-of-type(6n){
-margin-right:0;
+
+.block-weekly .weekly-box .card-container {
+    position: relative;
+    padding: 15px 0 10px 0;
 }
-.movie-card .ant-card-body{
-padding: 5px 10px;
+.block-weekly .weekly-box .card-container .rate{
+    font-size: .9rem;
+    font-weight: 700px;
+    color: var(--backColor);
 }
-.movie-card .ant-card-body .ant-card-meta-detail > div:not(:last-child){
-    margin:0;
+.block-weekly .weekly-box .card-container .title{
+    color:#999;
 }
-.loading-img-box,
-.movie-card img{
-width:100%;
-height:300px;
+.block-weekly .weekly-box .card-container .dot {
+    position: absolute;
+    top: -6px;
+    /* (width-1)/2+1 */
+    left: 50%;
+    width: 11px;
+    height: 11px;
+    transform: translate(-50%,0);
 }
-.loading-img-box{
-position: relative;
-background-color: #f5f6f7;
-cursor: not-allowed;
+
+.block-weekly .weekly-box .card-container .dot::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--rankOther);
 }
-.loading-img-box img{
-position: absolute;
-top:50%;
-left:50%;
-width:auto;
-height: auto;
-transform: translate(-50%,-50%);
+
+.block-weekly .weekly-box .card-container .dot::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 58%;
+    height: 58%;
+    transform: translate(-50%,0) rotate(45deg);
+    transform-origin: 50% 50%;
+    background-color: var(--rankOther);
 }
-.block-newmovie{
-position: relative;
+
+.movie-card {
+    margin: 10px 8px 10px 0;
 }
-.block-newmovie .cards-box{
-width:calc(var(--oneOfSix) * 4);
+
+.block-hotshow .movie-card:nth-of-type(6n) {
+    margin-right: 0;
 }
-.rate-box{
-position: absolute;
-top:0;
-right:0;
-width:32%;
+
+.movie-card .ant-card-body {
+    padding: 5px 10px;
 }
-.rate-box .goodbox{
-background-color: #f8f8f8;
+
+.movie-card .ant-card-body .ant-card-meta-detail > div:not(:last-child) {
+    margin: 0;
 }
-.rate-box .goodbox .goodbox-rate{
-position: relative;
-margin:10px 20px;
-padding:10px 50px;
-border-top: 1px solid #eee;
+
+.loading-img-box, .movie-card img {
+    width: 100%;
+    height: 300px;
 }
-.rate-box .goodbox .goodbox-rate .title{
-font-size: .9rem;
-font-weight: 800;
+
+.loading-img-box {
+    position: relative;
+    background-color: #f5f6f7;
+    cursor: not-allowed;
 }
-.rate-box .goodbox .goodbox-rate .title:hover{
-color: var(--hoverColor);
+
+.loading-img-box img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%,-50%);
 }
-.rate-box .goodbox .goodbox-rate .rank{
-position: absolute;
-top:0;
-left:0;
-font-size: 2rem;
-color:#666;
+
+.block-newmovie {
+    position: relative;
 }
-.rate-box .goodbox .goodbox-rate:nth-of-type(-n+3) .rank{
--webkit-text-fill-color: transparent;
-background-clip: text;
-background-image: linear-gradient(180deg,#ffb821 0,#ff5c38 45%,#ff1459); 
+
+.block-newmovie .cards-box {
+    width: calc(var(--oneOfSix) * 4);
 }
-.rate-box .goodbox .goodbox-rate .box{
-position: absolute;
-top: 10px;
-right: 0;
-color: #999;
+
+.rate-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32%;
 }
-.rate-box .goodbox .goodbox-rate .summary{
-color: #999;
+
+.rate-box .goodbox {
+    background-color: #f8f8f8;
 }
-.rate-box .goodbox .goodbox-rate .box-new{
-color: var(--highlightColor);
+
+.rate-box .goodbox .goodbox-rate {
+    position: relative;
+    margin: 10px 20px;
+    padding: 10px 50px;
+    border-top: 1px solid #eee;
+}
+
+.rate-box .goodbox .goodbox-rate .title {
+    font-size: .9rem;
+    font-weight: 800;
+}
+
+.rate-box .goodbox .goodbox-rate .title:hover {
+    color: var(--hoverColor);
+}
+
+.rate-box .goodbox .goodbox-rate .rank {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 2rem;
+    color: var(--rankOther);
+}
+
+.rate-box .goodbox .goodbox-rate:nth-of-type(-n+3) .rank {
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-image: linear-gradient(180deg,#ffb821 0,#ff5c38 45%,#ff1459);
+}
+
+.rate-box .goodbox .goodbox-rate .box {
+    position: absolute;
+    top: 10px;
+    right: 0;
+    color: #999;
+}
+
+.rate-box .goodbox .goodbox-rate .summary {
+    color: #999;
+}
+
+.rate-box .goodbox .goodbox-rate .box-new {
+    color: var(--highlightColor);
 }

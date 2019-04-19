@@ -44,3 +44,8 @@ export function getContentBySearch(str: string, params?: any) {
         params
     });
 }
+
+// 口碑榜
+export function getWeeklyMovie() {
+    return instance.get("/weekly");
+}

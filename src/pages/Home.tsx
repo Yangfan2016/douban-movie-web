@@ -1,8 +1,23 @@
 import React from "react";
-import { Card, Tag, Carousel, Icon } from 'antd';
-import { getHotShowing, getNew, getGoodbox, getContentBySearch } from "../api";
+import {
+    Card,
+    Tag,
+    Carousel,
+    Icon,
+    Affix,
+} from 'antd';
+import {
+    getHotShowing,
+    getNew,
+    getGoodbox,
+    getContentBySearch,
+    getWeeklyMovie,
+} from "../api";
 import { Link } from 'react-router-dom';
-import { CardListSkeleton, ListSkeleton } from "../skeletons/Home";
+import {
+    CardListSkeleton,
+    ListSkeleton,
+} from "../skeletons/Home";
 import '../css/Home.css';
 import * as _ from "lodash";
 
@@ -23,6 +38,7 @@ class Home extends React.Component {
             newMovieList: [], // 新片
             goodBoxList: [], // 票房榜
             suggestList: [], // 搜索建议
+            weeklyBox: [], // 口碑榜
             searchHistory: this.getSearchHistory().slice(0),
             boxLastDate: "",
             searchStr: "",
@@ -31,6 +47,8 @@ class Home extends React.Component {
             isLoadingGoodBox: true,
             isShowSuggestBox: false,
             isShowTipsPanel: true,
+            isLoadingWeeklyBox: true,
+            isTopNavFixed:false,
         };
 
         getHotShowing({
@@ -67,8 +85,21 @@ class Home extends React.Component {
                 });
             });
 
+        getWeeklyMovie()
+            .then(({ data }: any) => {
+                let { subjects } = data;
+
+                this.setState({
+                    weeklyBox: subjects,
+                    isLoadingWeeklyBox: false,
+                });
+            });
+
 
         this.getSuggestionBySearch = this.getContentBySearchDebounce();
+    }
+    changeTopNavStyle=()=>{
+
     }
     toggleSuggestList = (isShow: boolean) => {
         this.setState({
@@ -83,7 +114,7 @@ class Home extends React.Component {
     addSearchHistory(item: any) {
         const MAX_LEN_CACHE_SEARCH = 5;
         const KEY = "SEARCH_H";
-        let cache=this.getSearchHistory().slice(0);
+        let cache = this.getSearchHistory().slice(0);
 
         let isExist = cache.some((c: any) => {
             return c.id === item.id;
@@ -132,13 +163,16 @@ class Home extends React.Component {
             goodBoxList,
             boxLastDate,
             suggestList,
+            weeklyBox,
             searchHistory,
             searchStr,
             isLoadingHotShow,
             isLoadingNewMovie,
             isLoadingGoodBox,
+            isLoadingWeeklyBox,
             isShowTipsPanel,
             isShowSuggestBox,
+            isTopNavFixed,
         }: any = this.state;
 
         // temp
@@ -153,54 +187,83 @@ class Home extends React.Component {
         return (
             <div onClick={ev => { this.toggleSuggestList(false) }}>
                 <div className="header">
-                    <div className="header-bar">
-                        <div className="bar-container">
-                            <div className="logo"></div>
-                            <div className="search">
-                                <div className="search-box">
-                                    <div className="search-btn">
-                                        <Icon type="search" />
-                                        <span>全网搜</span>
+                    <Affix onChange={(isFixed:any)=>{
+                        this.setState({
+                            isTopNavFixed:!!isFixed,
+                        });
+                    }}>
+                        <div className={["header-bar",isTopNavFixed?"head-bar--fixed":""].join(" ")}>
+                            <div className="bar-container clearfix">
+                                <div className="logo"></div>
+                                <div className="search">
+                                    <div className="search-box">
+                                        <div className="search-btn">
+                                            <Icon type="search" />
+                                            <span>全网搜</span>
+                                        </div>
+                                        <input className="search-input" placeholder="王牌对王牌 第4季"
+                                            value={searchStr}
+                                            onChange={this.getSearch}
+                                            onClick={ev => ev.stopPropagation()}
+                                            onFocus={this.toggleSuggestList.bind(this, true)} />
                                     </div>
-                                    <input className="search-input" placeholder="王牌对王牌 第4季"
-                                        value={searchStr}
-                                        onChange={this.getSearch}
-                                        onClick={ev => ev.stopPropagation()}
-                                        onFocus={this.toggleSuggestList.bind(this, true)} />
-                                </div>
-                                <div className="search-list" style={
-                                    {
-                                        "display": isShowSuggestBox ? "block" : "none",
-                                    }
-                                }>
-                                    {
-                                        isShowTipsPanel ?
-                                            <div>
-                                                <div className="list-history" style={
-                                                    {
-                                                        "display": searchHistory.length > 0 ? "block" : "none",
-                                                    }
-                                                }>
-                                                    <h4 className="panel-title">历史记录</h4>
-                                                    <ul>
+                                    <div className="search-list" style={
+                                        {
+                                            "display": isShowSuggestBox ? "block" : "none",
+                                        }
+                                    }>
+                                        {
+                                            isShowTipsPanel ?
+                                                <div>
+                                                    <div className="list-history" style={
                                                         {
-                                                            searchHistory.map((item: any, index: number) => {
-                                                                return (
-                                                                    <li className="list-item" key={index}>
-                                                                        <Link to={`/detail/${item.id}`}>
-                                                                            <h5 className="title">{item.title}</h5>
-                                                                        </Link>
-                                                                    </li>
-                                                                );
-                                                            })
+                                                            "display": searchHistory.length > 0 ? "block" : "none",
                                                         }
-                                                    </ul>
+                                                    }>
+                                                        <h4 className="panel-title">历史记录</h4>
+                                                        <ul>
+                                                            {
+                                                                searchHistory.map((item: any, index: number) => {
+                                                                    return (
+                                                                        <li className="list-item" key={index}>
+                                                                            <Link to={`/detail/${item.id}`}>
+                                                                                <h5 className="title">{item.title}</h5>
+                                                                            </Link>
+                                                                        </li>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </ul>
+                                                    </div>
+                                                    <div className="list-hot">
+                                                        <h4 className="panel-title">热映</h4>
+                                                        <ul>
+                                                            {
+                                                                hotShowList.slice(0, 8).map((item: any, index: number) => {
+                                                                    return (
+                                                                        <li className="list-item" key={index}>
+                                                                            <Link to={`/detail/${item.id}`}
+                                                                                onClick={(ev: any) => {
+                                                                                    this.addSearchHistory({
+                                                                                        id: item.id,
+                                                                                        title: item.title,
+                                                                                    });
+                                                                                }}>
+                                                                                <span className="index">{+index + 1}</span>
+                                                                                <span className="title">{item.title}</span>
+                                                                            </Link>
+                                                                        </li>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div className="list-hot">
-                                                    <h4 className="panel-title">热映</h4>
+                                                :
+                                                <div className="list-suggest">
                                                     <ul>
                                                         {
-                                                            hotShowList.slice(0, 8).map((item: any, index: number) => {
+                                                            suggestList.map((item: any, index: number) => {
                                                                 return (
                                                                     <li className="list-item" key={index}>
                                                                         <Link to={`/detail/${item.id}`}
@@ -210,8 +273,8 @@ class Home extends React.Component {
                                                                                     title: item.title,
                                                                                 });
                                                                             }}>
-                                                                            <span className="index">{+index+1}</span>
-                                                                            <span className="title">{item.title}</span>
+                                                                            <h5 className="title">{item.title}</h5>
+                                                                            <p className="origin_title">{item.original_title}</p>
                                                                         </Link>
                                                                     </li>
                                                                 );
@@ -219,35 +282,12 @@ class Home extends React.Component {
                                                         }
                                                     </ul>
                                                 </div>
-                                            </div>
-                                            :
-                                            <div className="list-suggest">
-                                                <ul>
-                                                    {
-                                                        suggestList.map((item: any, index: number) => {
-                                                            return (
-                                                                <li className="list-item" key={index}>
-                                                                    <Link to={`/detail/${item.id}`}
-                                                                        onClick={(ev: any) => {
-                                                                            this.addSearchHistory({
-                                                                                id: item.id,
-                                                                                title: item.title,
-                                                                            });
-                                                                        }}>
-                                                                        <h5 className="title">{item.title}</h5>
-                                                                        <p className="origin_title">{item.original_title}</p>
-                                                                    </Link>
-                                                                </li>
-                                                            );
-                                                        })
-                                                    }
-                                                </ul>
-                                            </div>
-                                    }
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Affix>
                     <div className="header-banner">
                         <Carousel effect="fade" autoplay>
                             {bannerList.map((item: any, index: number) => {
@@ -360,6 +400,54 @@ class Home extends React.Component {
                                         })
                                 }
                             </ul>
+                        </div>
+                    </div>
+                    <div className="block block-weekly">
+                        <div className="line-raw">
+                            <h2 className="raw-title">一周口碑榜</h2>
+                        </div>
+                        <div className="cards-box weekly-box clearfix">
+                            {
+                                weeklyBox.slice(0, 6).map((item: any, index: number) => {
+                                    let { subject } = item;
+                                    let { rating, title } = subject;
+                                    let { average } = rating;
+                                    return (
+                                        <div className="card-container" key={index}>
+                                            <div className="rate">{average} 分</div>
+                                            <div className="title">{title}</div>
+                                            <div className="dot"></div>
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                        <div className="cards-box clearfix">
+                            {
+                                isLoadingWeeklyBox ?
+                                    <CardListSkeleton column={6} /> :
+                                    weeklyBox.slice(0, 6).map((item: any, index: number) => {
+                                        let { subject } = item;
+                                        let { rating, title, id, images, genres } = subject;
+                                        let { average } = rating;
+                                        return (
+                                            <div className="card-container" key={index}>
+                                                <Card
+                                                    className="movie-card"
+                                                    hoverable
+                                                    cover={
+                                                        <Link to={`/detail/${id}/#`}><img src={images.small} /></Link>
+                                                    }
+                                                >
+                                                    <Tag color="#f50" className="img-tag">{average}</Tag>
+                                                    <Card.Meta
+                                                        title={title}
+                                                        description={genres.join("/")}
+                                                    />
+                                                </Card>
+                                            </div>
+                                        );
+                                    })}
                         </div>
                     </div>
                 </div>
