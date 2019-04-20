@@ -11,7 +11,7 @@
 
 ### Todo & Done
 
-- 首页
+#### 首页
 
 - [x] banner
 - [x] 历史记录
@@ -23,24 +23,24 @@
 - [x] Top250
 - [ ] footer
 
-- 电影详情页
+#### 电影详情页
 
 - [x] 电影评分、基本信息
 - [x] 剧照
-- [x] 预告片（点击打开播放页）
+- [x] 预告片（点击打开播放虚拟页）
 - [x] 评论
 - [x] 热评
 - [x] 电影评分、基本信息
 
-- 搜索详情页
+#### 搜索详情页
 
 - [ ] 搜索信息列表
 
-- 标签详情页
+#### 标签详情页
 
 - [ ] 搜索信息列表
 
-- 票房页
+#### 票房页
 
 - [ ] 评分排行图表
 - [ ] 地域分布图表
@@ -51,12 +51,13 @@
 
 - React
 - React-router
-- Typescript
-
+- Typescript  
+----
 - ant-design
-- react-lazy-load
-
-- lodash
+- react-lazy-load  
+----
+- axios
+- lodash  
 
 ---
 built upon love by [docor](https://github.com/turingou/docor.git) v0.3.0
