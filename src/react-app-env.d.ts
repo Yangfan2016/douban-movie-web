@@ -3,6 +3,7 @@
 /// <reference types="react-dom" />
 
 declare module 'react-router-dom';
+declare module 'react-lazy-load';
 
 declare namespace NodeJS {
   interface ProcessEnv {

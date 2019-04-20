@@ -12,16 +12,19 @@ import {
     getGoodbox,
     getContentBySearch,
     getWeeklyMovie,
+    getTop250,
 } from "../api";
 import { Link } from 'react-router-dom';
 import {
+    CardListTop250Skeleton,
     CardListSkeleton,
     ListSkeleton,
 } from "../skeletons/Home";
 import '../css/Home.css';
 import * as _ from "lodash";
+import LazyLoad from "react-lazy-load";
 
-// temp
+// temp banner
 import imgBanner001 from '../assets/banner-001.jpg';
 import imgBanner002 from '../assets/banner-002.jpg';
 import imgBanner003 from '../assets/banner-003.jpg';
@@ -39,16 +42,18 @@ class Home extends React.Component {
             goodBoxList: [], // 票房榜
             suggestList: [], // 搜索建议
             weeklyBox: [], // 口碑榜
+            top250List: [], // top250
             searchHistory: this.getSearchHistory().slice(0),
             boxLastDate: "",
             searchStr: "",
             isLoadingHotShow: true,
             isLoadingNewMovie: true,
             isLoadingGoodBox: true,
+            isLoadingWeeklyBox: true,
+            isLoadingTop250: true,
             isShowSuggestBox: false,
             isShowTipsPanel: true,
-            isLoadingWeeklyBox: true,
-            isTopNavFixed:false,
+            isTopNavFixed: false,
         };
 
         getHotShowing({
@@ -95,10 +100,21 @@ class Home extends React.Component {
                 });
             });
 
+        getTop250({
+            count: 36,
+        })
+            .then(({ data }: any) => {
+                let { subjects } = data;
+
+                this.setState({
+                    top250List: subjects,
+                    isLoadingTop250: false,
+                });
+            });
 
         this.getSuggestionBySearch = this.getContentBySearchDebounce();
     }
-    changeTopNavStyle=()=>{
+    changeTopNavStyle = () => {
 
     }
     toggleSuggestList = (isShow: boolean) => {
@@ -156,6 +172,54 @@ class Home extends React.Component {
         isValid && this.getSuggestionBySearch(str);
 
     }
+    renderTop250() {
+        let { top250List } = this.state as any;
+        let len = top250List.length;
+        let count = len / 9 | 0;
+        let groupList = new Array(count).fill(0);
+
+        groupList = groupList.map((item: any, index: number) => {
+            let s = 9 * index;
+            let e = s + 9;
+            return top250List.slice(s, e);
+        });
+
+        return (
+            groupList.map((g: any, n: number) => {
+                return (
+                    <div className="cards-box cards-box--top250 clearfix" key={n}>
+                        {
+                            g.map((item: any, index: number) => {
+                                let isFirst = index === 0;
+                                return (
+                                    <div className={["card-container", isFirst ? "card-big" : ""].join(" ")} key={n + index}>
+                                        <Card
+                                            className="movie-card"
+                                            hoverable
+                                            cover={
+                                                <Link to={`/detail/${item.id}`}>
+                                                    <LazyLoad height={isFirst ? 600 : 300} offsetTop={500}>
+                                                        <img className="card-img" src={item.images.small} />
+                                                    </LazyLoad>
+                                                </Link>
+                                            }
+                                        >
+                                            <Tag color="#f50" className="img-tag">{item.rating.average}</Tag>
+                                            <Card.Meta
+                                                title={item.title}
+                                                description={item.genres.join("/")}
+                                            />
+                                        </Card>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
+                );
+            })
+        );
+
+    }
     render() {
         let {
             hotShowList,
@@ -170,6 +234,7 @@ class Home extends React.Component {
             isLoadingNewMovie,
             isLoadingGoodBox,
             isLoadingWeeklyBox,
+            isLoadingTop250,
             isShowTipsPanel,
             isShowSuggestBox,
             isTopNavFixed,
@@ -187,12 +252,12 @@ class Home extends React.Component {
         return (
             <div onClick={ev => { this.toggleSuggestList(false) }}>
                 <div className="header">
-                    <Affix onChange={(isFixed:any)=>{
+                    <Affix onChange={(isFixed: any) => {
                         this.setState({
-                            isTopNavFixed:!!isFixed,
+                            isTopNavFixed: !!isFixed,
                         });
                     }}>
-                        <div className={["header-bar",isTopNavFixed?"head-bar--fixed":""].join(" ")}>
+                        <div className={["header-bar", isTopNavFixed ? "head-bar--fixed" : ""].join(" ")}>
                             <div className="bar-container clearfix">
                                 <div className="logo"></div>
                                 <div className="search">
@@ -318,7 +383,11 @@ class Home extends React.Component {
                                                     className="movie-card"
                                                     hoverable
                                                     cover={
-                                                        <Link to={`/detail/${item.id}`}><img src={item.images.small} /></Link>
+                                                        <Link to={`/detail/${item.id}`}>
+                                                            <LazyLoad height={300} offsetTop={500}>
+                                                                <img src={item.images.small} />
+                                                            </LazyLoad>
+                                                        </Link>
                                                     }
                                                 >
                                                     <Tag color="#f50" className="img-tag">{item.rating.average}</Tag>
@@ -347,7 +416,11 @@ class Home extends React.Component {
                                                     className="movie-card"
                                                     hoverable
                                                     cover={
-                                                        <Link to={`/detail/${item.id}`}><img src={item.images.small} /></Link>
+                                                        <Link to={`/detail/${item.id}`}>
+                                                            <LazyLoad height={300} offsetTop={500}>
+                                                                <img src={item.images.small} />
+                                                            </LazyLoad>
+                                                        </Link>
                                                     }
                                                 >
                                                     <Tag color="#f50" className="img-tag">{item.rating.average}</Tag>
@@ -436,7 +509,11 @@ class Home extends React.Component {
                                                     className="movie-card"
                                                     hoverable
                                                     cover={
-                                                        <Link to={`/detail/${id}/#`}><img src={images.small} /></Link>
+                                                        <Link to={`/detail/${id}/#`}>
+                                                            <LazyLoad height={300} offsetTop={500}>
+                                                                <img src={images.small} />
+                                                            </LazyLoad>
+                                                        </Link>
                                                     }
                                                 >
                                                     <Tag color="#f50" className="img-tag">{average}</Tag>
@@ -449,6 +526,16 @@ class Home extends React.Component {
                                         );
                                     })}
                         </div>
+                    </div>
+                    <div className="block block-top250">
+                        <div className="line-raw">
+                            <h2 className="raw-title">Top 250</h2>
+                        </div>
+                        {
+                            isLoadingTop250 ?
+                                <CardListTop250Skeleton /> :
+                                this.renderTop250()
+                        }
                     </div>
                 </div>
             </div>

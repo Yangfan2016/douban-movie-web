@@ -19,8 +19,10 @@ export function getHotShowing(params?: any) {
 }
 
 // top250
-export function getTop250() {
-    return instance.get("/top250");
+export function getTop250(params?:any) {
+    return instance.get("/top250",{
+        params,
+    });
 }
 
 // 新片
