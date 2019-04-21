@@ -36,7 +36,7 @@ export function CardListSkeleton(props: ICardList) {
 export function CardListTop250Skeleton() {
     let list = new Array(9).fill(1);
     return (
-        <div className="cards-box clearfix">
+        <div className="cards-box cards-box--top250 clearfix">
             {
                 list.map((item: any, index: number) => {
                     return (

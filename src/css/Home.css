@@ -1,5 +1,9 @@
 :root {
-    --rankFirst:#ff183e; --rankSecond:#ff5c38; --rankThird:#ffb821; --rankOther: #666; }
+    --rankFirst:#ff183e;
+    --rankSecond:#ff5c38;
+    --rankThird:#ffb821;
+    --rankOther: #666;
+}
 
 .header {
     position: relative;
@@ -12,7 +16,7 @@
     left:0;
     width: 100%;
     padding: 10px 0;
-    background-color: rgba(255,255,255,.14);
+    background-color: rgba(255,255,255,.24);
     z-index: 2;
 }
 .header .head-bar--fixed{
@@ -50,7 +54,7 @@
 .header .head-bar--fixed .search-box{
     background-color: transparent;
     box-shadow:none;
-    border-color: var(--hoverColor);
+    border-color: var(--themeColor);
 }
 
 .header .header-bar .search-box .search-input, .header .header-bar .search-box .search-btn {
@@ -70,13 +74,13 @@
     width: 100px;
     text-align: center;
     line-height: 40px;
-    background-color: var(--hoverColor);
+    background-color: var(--themeColor);
     color: var(--foreColor);
     cursor: pointer;
 }
 
 .header .header-bar .search-box .search-btn:hover {
-    background-color: var(--highlightColor);
+    background-color: var(--themeHoverColor);
 }
 
 .header .header-bar .search-list {
@@ -333,7 +337,7 @@
 }
 
 .rate-box .goodbox .goodbox-rate .title:hover {
-    color: var(--hoverColor);
+    color: var(--themeHoverColor);
 }
 
 .rate-box .goodbox .goodbox-rate .rank {
@@ -363,4 +367,24 @@
 
 .rate-box .goodbox .goodbox-rate .box-new {
     color: var(--highlightColor);
+}
+
+.footer{
+    border-top: 2px solid var(--themeColor);
+    padding: 40px 0;
+    font-size: 0.6rem;
+    text-align: center;
+    color: #999;
+}
+
+.footer-block{
+    line-height: 1.2rem;
+}
+
+.footer-block a{
+    color: inherit;
+}
+
+.footer-block a:hover{
+    color: var(--themeHoverColor);
 }

@@ -106,7 +106,6 @@
   font-size: 2rem;
   color: #fff;
 }
-
 .movie-card .img-tag, .gallery-img .img-tag {
   position: absolute;
   top: 5px;
@@ -154,6 +153,11 @@
 .box-list .list .list-item img {
   width: 200px;
   height: auto;
+}
+
+.box-list .list .list-item.active .ant-list-item-meta-title,
+.box-list .list .list-item:hover .ant-list-item-meta-title{
+  color: var(--themeHoverColor);
 }
 
 .drawer-in {

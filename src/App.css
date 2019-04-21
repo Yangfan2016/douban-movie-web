@@ -12,6 +12,8 @@ h1,h2,h3,h4,h5,h6{
   margin: 0;
 }
 :root{
+  --themeColor:#44883e;
+  --themeHoverColor:#080;
   --hoverColor:#ff5c38;
   --highlightColor:#f00;
   --backColor:#2d2e36;
@@ -38,4 +40,11 @@ body{
 }
 .page{
   min-width: 1000px;
+}
+
+/* ant-tag */
+.ant-tag.tag-orange{
+  background-color: var(--hoverColor);
+  border-color: var(--hoverColor);
+  color:#fff;
 }

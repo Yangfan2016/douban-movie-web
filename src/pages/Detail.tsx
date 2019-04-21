@@ -14,6 +14,7 @@ class Detail extends React.Component {
 
         this.state = {
             currentPlayData: {
+                index: 0,
                 isAutoPlay: true,
             },
             detailData: {},
@@ -55,16 +56,17 @@ class Detail extends React.Component {
             galleryBoxEl.style.width = `${width}px`;
         }
     }
-    playThisVideo(src: string, isAutoPlay: boolean = true) {
+    playThisVideo(src: string,index:number) {
         this.setState({
             currentPlayData: {
                 src,
-                isAutoPlay,
+                index,
+                isAutoPlay:true,
             }
         });
     }
     openPlayBox = (src: string) => {
-        this.playThisVideo(src);
+        this.playThisVideo(src,0);
         this.setState({
             isOpenPlayBox: true,
         });
@@ -170,7 +172,7 @@ class Detail extends React.Component {
                                                                     type="play-circle"
                                                                     theme="filled"
                                                                     className="img-icon"
-                                                                    onClick={(ev) => { this.openPlayBox(detailData.trailer_urls[0]) }} />
+                                                                    onClick={(ev) => { this.openPlayBox(detailData.trailer_urls[currentPlayData.index]) }} />
                                                             </>
                                                         )}
                                                         <img src={image} alt={alt} />
@@ -323,12 +325,12 @@ class Detail extends React.Component {
                                     itemLayout="vertical"
                                     size="small"
                                     dataSource={detailData.trailers}
-                                    renderItem={(item: any) => (
+                                    renderItem={(item: any,index:number) => (
                                         <List.Item
-                                            className="list-item"
+                                            className={["list-item",index===currentPlayData.index?"active":""].join(" ")}
                                             key={item.id}
                                             extra={<img alt="logo" src={item.medium} />}
-                                            onClick={(ev) => { this.playThisVideo(item.resource_url) }} >
+                                            onClick={(ev) => { this.playThisVideo(item.resource_url,index) }} >
                                             <List.Item.Meta
                                                 title={item.title}
                                             />
