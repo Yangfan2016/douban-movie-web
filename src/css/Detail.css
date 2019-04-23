@@ -143,9 +143,6 @@
   overflow-y: auto;
 }
 
-.box-list .list {
-}
-
 .box-list .list .list-item {
   cursor: pointer;
 }

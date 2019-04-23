@@ -48,7 +48,7 @@
     border-radius: 20px;
     background-color: rgba(255,255,255,.2);
     box-shadow: 0 4px 18px rgba(17,18,38,.07);
-    border: 1px solid transparent; 
+    border: 1px solid transparent;
     overflow: hidden;
 }
 .header .head-bar--fixed .search-box{
@@ -284,7 +284,7 @@
     margin: 0;
 }
 
-.loading-img-box, 
+.loading-img-box,
 .movie-card img {
     width: 100%;
     height: 300px;
