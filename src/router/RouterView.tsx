@@ -5,9 +5,7 @@ import Home from '../pages/Home';
 import Detail from '../pages/Detail';
 import Box from '../pages/Box';
 
-function NotFound() {
-  return '404';
-}
+import NotFound from '../errors/NotFound';
 
 export default function () {
   return (
