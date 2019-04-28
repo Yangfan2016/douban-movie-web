@@ -1,26 +1,30 @@
 import React from "react";
+
 import {
   Card,
   Tag,
   Carousel,
-  Icon,
-  Affix,
-  Divider,
 } from 'antd';
+
 import {
   getHotShowing,
   getNew,
   getGoodbox,
-  getContentBySearch,
   getWeeklyMovie,
   getTop250,
 } from "../api";
+
 import { Link } from 'react-router-dom';
+
 import {
   CardListTop250Skeleton,
   CardListSkeleton,
   ListSkeleton,
 } from "../skeletons/Home";
+
+import TopNav from '../components/TopNav';
+import Footer from '../components/Footer';
+
 import '../css/Home.css';
 import * as _ from "lodash";
 import LazyLoad from "react-lazy-load";
@@ -34,27 +38,21 @@ import imgBanner005 from '../assets/banner-005.jpg';
 
 
 class Home extends React.Component {
-  getSuggestionBySearch: (value: string) => any
   constructor(props: any) {
     super(props);
     this.state = {
       hotShowList: [], // 热映
       newMovieList: [], // 新片
       goodBoxList: [], // 票房榜
-      suggestList: [], // 搜索建议
       weeklyBox: [], // 口碑榜
       top250List: [], // top250
-      searchHistory: this.getSearchHistory().slice(0),
       boxLastDate: "",
-      searchStr: "",
       isLoadingHotShow: true,
       isLoadingNewMovie: true,
       isLoadingGoodBox: true,
       isLoadingWeeklyBox: true,
       isLoadingTop250: true,
-      isShowSuggestBox: false,
-      isShowTipsPanel: true,
-      isTopNavFixed: false,
+      isShowSuggestBox:false,
     };
 
     getHotShowing({
@@ -113,65 +111,11 @@ class Home extends React.Component {
         });
       });
 
-    this.getSuggestionBySearch = this.getContentBySearchDebounce();
-  }
-  changeTopNavStyle = () => {
-
   }
   toggleSuggestList = (isShow: boolean) => {
     this.setState({
       isShowSuggestBox: isShow,
     });
-  }
-  getSearchHistory() {
-    const KEY = "SEARCH_H";
-    let cache = JSON.parse(localStorage.getItem(KEY) || "[]");
-    return cache;
-  }
-  addSearchHistory(item: any) {
-    const MAX_LEN_CACHE_SEARCH = 5;
-    const KEY = "SEARCH_H";
-    let cache = this.getSearchHistory().slice(0);
-
-    let isExist = cache.some((c: any) => {
-      return c.id === item.id;
-    });
-
-    if (!isExist) {
-      cache.unshift(item);
-      if (cache.length > MAX_LEN_CACHE_SEARCH) {
-        cache.pop();
-      }
-      localStorage.setItem(KEY, JSON.stringify(cache));
-    }
-  }
-  getContentBySearchDebounce() {
-    let comp = this;
-    return _.debounce(function (value) {
-      getContentBySearch(value, {
-        count: 5,
-      })
-        .then(({ data }: any) => {
-          let { subjects } = data;
-          comp.setState({
-            suggestList: subjects,
-          });
-        });
-    }, 5e2);
-  }
-  getSearch = (ev: any) => {
-    let value = ev.target.value;
-    let str = value.trim();
-    let isValid = str.length > 0;
-    this.setState({
-      searchStr: value,
-      isShowTipsPanel: !isValid,
-    });
-
-
-    // close showlist
-    isValid && this.getSuggestionBySearch(str);
-
   }
   renderTop250() {
     let { top250List } = this.state as any;
@@ -227,18 +171,13 @@ class Home extends React.Component {
       newMovieList,
       goodBoxList,
       boxLastDate,
-      suggestList,
       weeklyBox,
-      searchHistory,
-      searchStr,
       isLoadingHotShow,
       isLoadingNewMovie,
       isLoadingGoodBox,
       isLoadingWeeklyBox,
       isLoadingTop250,
-      isShowTipsPanel,
       isShowSuggestBox,
-      isTopNavFixed,
     }: any = this.state;
 
     // temp
@@ -253,107 +192,7 @@ class Home extends React.Component {
     return (
       <div onClick={ev => { this.toggleSuggestList(false) }}>
         <div className="header">
-          <Affix onChange={(isFixed: any) => {
-            this.setState({
-              isTopNavFixed: !!isFixed,
-            });
-          }}>
-            <div className={["header-bar", isTopNavFixed ? "head-bar--fixed" : ""].join(" ")}>
-              <div className="bar-container clearfix">
-                <div className="logo"></div>
-                <div className="search">
-                  <div className="search-box">
-                    <div className="search-btn">
-                      <Icon type="search" />
-                      <span>全网搜</span>
-                    </div>
-                    <input className="search-input" placeholder="王牌对王牌 第4季"
-                      value={searchStr}
-                      onChange={this.getSearch}
-                      onClick={ev => ev.stopPropagation()}
-                      onFocus={this.toggleSuggestList.bind(this, true)} />
-                  </div>
-                  <div className="search-list" style={
-                    {
-                      "display": isShowSuggestBox ? "block" : "none",
-                    }
-                  }>
-                    {
-                      isShowTipsPanel ?
-                        <div>
-                          <div className="list-history" style={
-                            {
-                              "display": searchHistory.length > 0 ? "block" : "none",
-                            }
-                          }>
-                            <h4 className="panel-title">历史记录</h4>
-                            <ul>
-                              {
-                                searchHistory.map((item: any, index: number) => {
-                                  return (
-                                    <li className="list-item" key={index}>
-                                      <Link to={`/detail/${item.id}`}>
-                                        <h5 className="title">{item.title}</h5>
-                                      </Link>
-                                    </li>
-                                  );
-                                })
-                              }
-                            </ul>
-                          </div>
-                          <div className="list-hot">
-                            <h4 className="panel-title">热映</h4>
-                            <ul>
-                              {
-                                hotShowList.slice(0, 8).map((item: any, index: number) => {
-                                  return (
-                                    <li className="list-item" key={index}>
-                                      <Link to={`/detail/${item.id}`}
-                                        onClick={(ev: any) => {
-                                          this.addSearchHistory({
-                                            id: item.id,
-                                            title: item.title,
-                                          });
-                                        }}>
-                                        <span className="index">{+index + 1}</span>
-                                        <span className="title">{item.title}</span>
-                                      </Link>
-                                    </li>
-                                  );
-                                })
-                              }
-                            </ul>
-                          </div>
-                        </div>
-                        :
-                        <div className="list-suggest">
-                          <ul>
-                            {
-                              suggestList.map((item: any, index: number) => {
-                                return (
-                                  <li className="list-item" key={index}>
-                                    <Link to={`/detail/${item.id}`}
-                                      onClick={(ev: any) => {
-                                        this.addSearchHistory({
-                                          id: item.id,
-                                          title: item.title,
-                                        });
-                                      }}>
-                                      <h5 className="title">{item.title}</h5>
-                                      <p className="origin_title">{item.original_title}</p>
-                                    </Link>
-                                  </li>
-                                );
-                              })
-                            }
-                          </ul>
-                        </div>
-                    }
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Affix>
+          <TopNav showSuggest={isShowSuggestBox} />
           <div className="header-banner">
             <Carousel autoplay>
               {bannerList.map((item: any, index: number) => {
@@ -539,27 +378,7 @@ class Home extends React.Component {
             }
           </div>
         </div>
-        <div className="footer">
-          <div className="footer-block content-origin">
-            <span>免责声明：内容来源于 <a href="https://movie.douban.com/" target="_blank">豆瓣电影</a> ，接口来源于网络，侵删，禁止商业用途使用</span>
-          </div>
-          <div className="footer-block copyright">
-            <span>Copyright &copy;2019 <a href="https://github.com/Yangfan2016" target="_blank">yangfan2016</a> &lt;15234408101@163.com&gt;</span>
-            <Divider type="vertical" />
-            <span><a href="https://github.com/Yangfan2016/douban-movie-web/blob/master/LICENSE" target="_blank">MIT</a></span>
-          </div>
-          <div className="footer-block menu">
-            <span><a href="https://github.com/Yangfan2016" target="_blank">关于我</a></span>
-            <Divider type="vertical" />
-            <span><a href="https://github.com/Yangfan2016" target="_blank">About me</a></span>
-            <Divider type="vertical" />
-            <span><a href="https://github.com/Yangfan2016" target="_blank">Github</a></span>
-            <Divider type="vertical" />
-            <span><a href="https://juejin.im/user/5bd570f86fb9a05d396f5d50" target="_blank">掘金</a></span>
-            <Divider type="vertical" />
-            <span><a href="https://yangfan2016.github.io" target="_blank">博客</a></span>
-          </div>
-        </div>
+        <Footer />
       </div>
     );
   }

@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Home from '../pages/Home';
 import Detail from '../pages/Detail';
 import Box from '../pages/Box';
+import Search from '../pages/Search';
 
 import NotFound from '../errors/NotFound';
 
@@ -15,8 +16,9 @@ export default function () {
         <Route exact path="/home" component={Home} />
         <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/box" component={Box} />
+        <Route exact path="/search/:query" component={Search} />
         <Route component={NotFound} />
-      </Switch>
+      </Switch>Î
     </BrowserRouter>
   );
 }
