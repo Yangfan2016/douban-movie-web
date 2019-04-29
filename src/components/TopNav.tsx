@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 import {
   Icon,
   Affix,
@@ -10,20 +11,24 @@ import {
 import { Link } from 'react-router-dom';
 import '../css/Home.css';
 import * as _ from "lodash";
+import { serialize } from '../utils';
+import { func } from "prop-types";
+import { timingSafeEqual } from "crypto";
 
 
-
+@withRouter
 class TopNav extends React.Component<any> {
   getSuggestionBySearch: (value: string) => any
   state: any
   constructor(props: any) {
     super(props);
     this.state = {
+      hostShowTitle: "",
       hotShowList: [], // 热映
       suggestList: [], // 搜索建议
       searchHistory: this.getSearchHistory().slice(0),
       searchStr: "",
-      isShowSuggestBox: props.showSuggest,
+      isShowSuggestBox: false,
       isShowTipsPanel: true,
       isTopNavFixed: false,
     };
@@ -36,7 +41,10 @@ class TopNav extends React.Component<any> {
       .then(({ data }: any) => {
         let { subjects } = data;
 
+        let hostShowTitle = subjects.length > 0 ? subjects[0].title : "";
+
         this.setState({
+          hostShowTitle,
           hotShowList: subjects,
           isLoadingHotShow: false,
         });
@@ -47,6 +55,26 @@ class TopNav extends React.Component<any> {
   toggleSuggestList = (isShow: boolean) => {
     this.setState({
       isShowSuggestBox: isShow,
+    });
+  }
+  navToSearch = () => {
+    let { searchStr, hostShowTitle } = this.state;
+
+    searchStr = searchStr.trim();
+
+    if (searchStr === "") {
+      searchStr = hostShowTitle;
+    }
+
+    let query = {
+      q: searchStr,
+    };
+
+    let search = serialize(query);
+
+    this.props.history.push({
+      pathname: '/search',
+      search,
     });
   }
   getSearchHistory() {
@@ -99,15 +127,20 @@ class TopNav extends React.Component<any> {
     isValid && this.getSuggestionBySearch(str);
 
   }
-  componentWillReceiveProps(nextProps: any) {
-    if (nextProps.showSuggest !== this.state.showSuggest) {
-      this.setState({
-        isShowSuggestBox: nextProps.showSuggest,
-      });
-    }
+  closeSuggest = () => {
+    this.setState({
+      isShowSuggestBox: false,
+    });
+  }
+  componentDidMount() {
+    document.addEventListener("click", this.closeSuggest);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("click", this.closeSuggest);
   }
   render() {
     let {
+      hostShowTitle,
       hotShowList,
       suggestList,
       searchHistory,
@@ -128,16 +161,24 @@ class TopNav extends React.Component<any> {
             <div className="logo"></div>
             <div className="search">
               <div className="search-box">
-                <div className="search-btn">
+                <div className="search-btn" onClick={this.navToSearch}>
                   <Icon type="search" />
                   <span>全网搜</span>
                 </div>
-                <input className="search-input" placeholder="王牌对王牌 第4季"
+                <input className="search-input"
+                  placeholder={hostShowTitle}
                   value={searchStr}
                   onChange={this.getSearch}
                   onClick={ev => {
-                    ev.stopPropagation();
+                    ev.nativeEvent.stopImmediatePropagation();
                     this.toggleSuggestList(true);
+                  }}
+                  onKeyDown={ev => {
+                    this.toggleSuggestList(true);
+                    if (ev.keyCode === 13) {
+                      this.toggleSuggestList(false);
+                      this.navToSearch();
+                    }
                   }} />
               </div>
               <div className="search-list" style={
@@ -145,7 +186,7 @@ class TopNav extends React.Component<any> {
                   "display": isShowSuggestBox ? "block" : "none",
                 }
               }
-                onClick={ev => ev.stopPropagation()}>
+                onClick={ev => { ev.nativeEvent.stopImmediatePropagation() }}>
                 {
                   isShowTipsPanel ?
                     <div>

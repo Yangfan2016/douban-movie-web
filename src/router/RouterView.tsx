@@ -16,9 +16,9 @@ export default function () {
         <Route exact path="/home" component={Home} />
         <Route exact path="/detail/:id" component={Detail} />
         <Route exact path="/box" component={Box} />
-        <Route exact path="/search/:query" component={Search} />
+        <Route exact path="/search" component={Search} />
         <Route component={NotFound} />
-      </Switch>Î
+      </Switch>
     </BrowserRouter>
   );
 }

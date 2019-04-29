@@ -1,0 +1,17 @@
+.page-search{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.page-search .search-result-list{
+  width: 70%;
+}
+
+.page-search .search-result-list .list-item{
+
+}
+
+.page-search .search-result-list .item-img{
+  width:160px;
+  height:220px;
+}

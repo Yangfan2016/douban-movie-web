@@ -11,10 +11,7 @@
 }
 
 .header .header-bar {
-    position: absolute;
-    top:0;
-    left:0;
-    width: 100%;
+    position: relative;
     padding: 10px 0;
     background-color: rgba(255,255,255,.24);
     z-index: 2;

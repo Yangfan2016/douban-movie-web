@@ -52,7 +52,6 @@ class Home extends React.Component {
       isLoadingGoodBox: true,
       isLoadingWeeklyBox: true,
       isLoadingTop250: true,
-      isShowSuggestBox:false,
     };
 
     getHotShowing({
@@ -111,11 +110,6 @@ class Home extends React.Component {
         });
       });
 
-  }
-  toggleSuggestList = (isShow: boolean) => {
-    this.setState({
-      isShowSuggestBox: isShow,
-    });
   }
   renderTop250() {
     let { top250List } = this.state as any;
@@ -177,7 +171,6 @@ class Home extends React.Component {
       isLoadingGoodBox,
       isLoadingWeeklyBox,
       isLoadingTop250,
-      isShowSuggestBox,
     }: any = this.state;
 
     // temp
@@ -190,9 +183,9 @@ class Home extends React.Component {
     ];
 
     return (
-      <div onClick={ev => { this.toggleSuggestList(false) }}>
+      <div>
         <div className="header">
-          <TopNav showSuggest={isShowSuggestBox} />
+          <TopNav />
           <div className="header-banner">
             <Carousel autoplay>
               {bannerList.map((item: any, index: number) => {
