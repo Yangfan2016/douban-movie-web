@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from 'react-router-dom';
+import { withRouter ,Link} from 'react-router-dom';
 import {
   Icon,
   Affix,
@@ -8,12 +8,9 @@ import {
   getHotShowing,
   getContentBySearch,
 } from "../api";
-import { Link } from 'react-router-dom';
 import '../css/Home.css';
 import * as _ from "lodash";
 import { serialize } from '../utils';
-import { func } from "prop-types";
-import { timingSafeEqual } from "crypto";
 
 
 @withRouter
@@ -158,7 +155,7 @@ class TopNav extends React.Component<any> {
       }}>
         <div className={["header-bar", isTopNavFixed ? "head-bar--fixed" : ""].join(" ")}>
           <div className="bar-container clearfix">
-            <div className="logo"></div>
+            <Link to="/home"><div className="logo"></div></Link>
             <div className="search">
               <div className="search-box">
                 <div className="search-btn" onClick={this.navToSearch}>

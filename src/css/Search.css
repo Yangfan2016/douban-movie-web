@@ -1,17 +1,43 @@
+.header-bar{
+  border-bottom:1px solid #e4e4e4;
+}
+
 .page-search{
+  position: relative;
   width: 80%;
-  margin: 0 auto;
+  margin: 30px auto;
 }
 
 .page-search .search-result-list{
   width: 70%;
 }
 
-.page-search .search-result-list .list-item{
-
-}
-
 .page-search .search-result-list .item-img{
   width:160px;
   height:220px;
+  border-radius: 5px;
+}
+
+.ant-list-split .ant-list-item{
+  border:none;
+}
+
+.rate-box{
+  width:30%;
+}
+
+.rate-box .ant-affix{
+  z-index:9;
+}
+
+.rate-box .goodbox .goodbox-rate{
+  margin:5px 10px;
+  padding: 5px 30px;
+}
+
+.rate-box .goodbox .goodbox-rate .title{
+  font-size: .8rem;
+}
+.rate-box .goodbox .goodbox-rate .rank{
+  font-size: 1rem;
 }
