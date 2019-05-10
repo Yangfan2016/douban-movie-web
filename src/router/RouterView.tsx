@@ -1,24 +1,41 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-import Home from '../pages/Home';
-import Detail from '../pages/Detail';
-import Box from '../pages/Box';
-import Search from '../pages/Search';
+import routerMap from "./config";
 
-import NotFound from '../errors/NotFound';
 
-export default function () {
+
+function CustomRoute(props: any) {
+  let path = props.location.pathname;
+
+  props.beforeEnter && props.beforeEnter(path);
+
+  // '/'-> '/home
+  if (path === '/') return <Redirect to='/home' />
+
+  // if can match
+  let matchRoute: any = routerMap.find(item => {
+    let url = item.path;
+    // /detail/:id -> \\/detail\\/[^/+]
+    url = url.replace(/(\:.+)/g, "[^/]+").replace(/\//g, "\\/");
+
+    return new RegExp(`${url}(\\/|\\/)?$`, 'gi').test(path);
+  });
+
+  if (matchRoute) {
+    return <Route exact={!matchRoute.hasChild} path={matchRoute.path} component={matchRoute.component} />
+  }
+  return <Redirect to='/404' />
+}
+
+export default function (props: any) {
   return (
     <BrowserRouter>
-      <Switch>
-        <Redirect exact from="/" to="/home" />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/detail/:id" component={Detail} />
-        <Route exact path="/box" component={Box} />
-        <Route exact path="/search" component={Search} />
-        <Route component={NotFound} />
-      </Switch>
+      <>
+        <Switch>
+          <CustomRoute {...props} />
+        </Switch>
+      </>
     </BrowserRouter>
   );
 }
