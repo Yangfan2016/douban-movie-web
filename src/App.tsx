@@ -10,15 +10,15 @@ import RouterView from './router/RouterView';
 moment.locale('zh-cn');
 
 function routerBeforeEnterHook(path: string) {
-  // 取消所有请求
-  window.cancalXHRList.forEach((source: any) => {
-    source.cancel("cancel xhr");
-  });
   // 滚动条复位，回到原点
   window.scrollTo({
     top: 0,
     behavior: "smooth"
-  }); 
+  });
+  // 取消所有请求
+  window.cancalXHRList.forEach((source: any) => {
+    source.cancel("cancel xhr");
+  });
 }
 
 class App extends Component {

@@ -71,3 +71,14 @@ export function getContentBySearch(str: string, params?: any) {
 export function getWeeklyMovie() {
   return http().get("/weekly");
 }
+
+export function getWallPaper() {
+  return axios.get("/bing/HPImageArchive.aspx", {
+    params: {
+      format: "js",
+      idx: 0,
+      n: 1,
+      mkt: "zh-CN",
+    }
+  });
+}

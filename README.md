@@ -60,15 +60,6 @@
 
 ![photo-004](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-movie-web-xm001.png?raw=true)
 
-### Contributing
-- Fork this Repo first
-- Clone your Repo
-- Install dependencies by `$ npm install`
-- Checkout a feature branch
-- Feel free to add your features
-- Make sure your features are fully tested
-- Publish your local branch, Open a pull request
-- Enjoy hacking <3
 
 ### MIT license
 Copyright (c) 2019 yangfan2016 &lt;15234408101@163.com&gt;
@@ -92,5 +83,4 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ---
-![docor]()
 built upon love by [docor](https://github.com/turingou/docor.git) v0.3.0

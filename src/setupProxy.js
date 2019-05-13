@@ -8,4 +8,11 @@ module.exports = function (app) {
       '^/api': '/v2', // 重写路径
     },
   }));
+  app.use(proxy('/bing', {
+    target: 'https://www.bing.com/',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/bing': '/', // 重写路径
+    },
+  }));
 };
