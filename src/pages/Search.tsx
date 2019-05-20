@@ -17,6 +17,8 @@ import { List, Pagination, Affix } from 'antd';
 import '../css/Search.css';
 
 class Search extends React.Component {
+  refRateBox: any
+  refPageBox: any
   constructor(props: any) {
     super(props);
 
@@ -50,8 +52,23 @@ class Search extends React.Component {
           hotShowList: subjects,
           isLoadingHotShow: false,
         });
+
+        var refPageBoxHeight = window.getComputedStyle(this.refPageBox.current)["height"];
+        var refRateBoxHeight = window.getComputedStyle(this.refRateBox.current)["height"];
+        if (refRateBoxHeight && refPageBoxHeight) {
+          refPageBoxHeight = refPageBoxHeight.replace("px", "");
+          refRateBoxHeight = refRateBoxHeight.replace("px", "");
+          if (+refRateBoxHeight > +refPageBoxHeight) {
+            this.refPageBox.current.style.cssText = `;min-height:${refRateBoxHeight}px;`;
+          }
+
+        }
+
       });
 
+
+    this.refPageBox = React.createRef();
+    this.refRateBox = React.createRef();
 
   }
   changeSearchData = (current: number) => {
@@ -92,7 +109,7 @@ class Search extends React.Component {
         <div className="header clearfix">
           <TopNav />
         </div>
-        <div className="page page-search">
+        <div className="page page-search" ref={this.refPageBox}>
           <div className="search-result-list">
             <List
               itemLayout="vertical"
@@ -169,7 +186,7 @@ class Search extends React.Component {
             <Pagination onChange={this.changeSearchData} total={searchData.total} />
           </div>
           <Affix offsetTop={100} className="rate-box">
-            <div>
+            <div ref={this.refRateBox}>
               <div className="line-raw">
                 <h2 className="raw-title">热映榜</h2>
               </div>

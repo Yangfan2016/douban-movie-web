@@ -311,6 +311,11 @@ class Home extends React.Component {
           <div className="block block-weekly">
             <div className="line-raw">
               <h2 className="raw-title">一周口碑榜</h2>
+              <div className="spotbox">
+                <div className="spot"></div>
+                <div className="spot"></div>
+                <div className="spot"></div>
+              </div>
             </div>
             <div className="cards-box weekly-box clearfix">
               {
