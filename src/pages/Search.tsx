@@ -1,45 +1,46 @@
-import React from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-
-
+import { List, Pagination, Affix } from 'antd';
 import { ListSkeleton } from '../skeletons/Home';
-
 import TopNav from '../components/TopNav';
 import Footer from '../components/Footer';
-
-
 import { getContentBySearch, getHotShowing } from '../api';
 import { reSerialize } from '../utils';
-
-import { List, Pagination, Affix } from 'antd';
-
 import '../css/Search.css';
 
-class Search extends React.Component {
-  refRateBox: any
-  refPageBox: any
-  constructor(props: any) {
-    super(props);
 
-    let { location } = props;
-    let { search } = location;
-    search = search.slice(1); // ?q=123 -> q=123
-    let query: any = reSerialize(search);
-    let searchStr = query.q;
+export default function (props: any) {
 
-    this.state = {
-      searchStr,
-      searchData: {},
-      searchPageSize: 5,
-      hotShowList: [],
-      isLoadingSearchList: true,
-      isLoadingHotShow: true,
-    };
+  let { location } = props;
+  let { search } = location;
+  search = search.slice(1); // ?q=123 -> q=123
+  let query: any = reSerialize(search);
+  let searchStr = query.q;
+
+  let searchPageSize = 5;
+
+  let [searchData, setSearchData] = useState<any>({});
+
+  let [hotShowList, setHotShowList] = useState([]);
+  let [isLoadingHotShow, setIsLoadingHotShow] = useState(true);
+
+  let refPageBox: any = useRef();
+  let refRateBox: any = useRef();
 
 
-    this.changeSearchData(1);
+  function changeSearchData(current: number) {
+    getContentBySearch(searchStr, {
+      count: searchPageSize,
+      start: (current - 1) * searchPageSize,
+    })
+      .then(({ data }: any) => {
+        setSearchData(data);
+      });
+  }
 
+  // componentDidMount 只执行一次（第二个参数设置了空数组）
+  useEffect(() => {
+    changeSearchData(1);
 
     getHotShowing({
       start: 0,
@@ -48,174 +49,133 @@ class Search extends React.Component {
       .then(({ data }: any) => {
         let { subjects } = data;
 
-        this.setState({
-          hotShowList: subjects,
-          isLoadingHotShow: false,
-        });
+        setHotShowList(subjects);
+        setIsLoadingHotShow(false);
 
-        var refPageBoxHeight = window.getComputedStyle(this.refPageBox.current)["height"];
-        var refRateBoxHeight = window.getComputedStyle(this.refRateBox.current)["height"];
+        var refPageBoxHeight = window.getComputedStyle(refPageBox.current)["height"];
+        var refRateBoxHeight = window.getComputedStyle(refRateBox.current)["height"];
         if (refRateBoxHeight && refPageBoxHeight) {
           refPageBoxHeight = refPageBoxHeight.replace("px", "");
           refRateBoxHeight = refRateBoxHeight.replace("px", "");
           if (+refRateBoxHeight > +refPageBoxHeight) {
-            this.refPageBox.current.style.cssText = `;min-height:${refRateBoxHeight}px;`;
+            refPageBox.current.style.cssText = `;min-height:${refRateBoxHeight}px;`;
           }
 
         }
 
       });
+  }, []);
 
-
-    this.refPageBox = React.createRef();
-    this.refRateBox = React.createRef();
-
-  }
-  changeSearchData = (current: number) => {
-    let { searchStr, searchPageSize }: any = this.state;
-    getContentBySearch(searchStr, {
-      count: searchPageSize,
-      start: (current - 1) * searchPageSize,
-    })
-      .then(({ data }: any) => {
-        this.setState({
-          searchData: data,
-        });
-      });
-  }
-  componentWillReceiveProps(newProps: any) {
-    let search = newProps.location.search;
-    let oldSearch = (this.props as any).location.search;
-    if (search !== oldSearch) {
-      search = search.slice(1); // ?q=123 -> q=123
-      let query: any = reSerialize(search);
-      let searchStr = query.q;
-
-      this.setState({
-        searchStr,
-      }, () => {
-        this.changeSearchData(1);
-      });
-    }
-  }
-  render() {
-    let {
-      searchData,
-      hotShowList,
-      isLoadingHotShow,
-    }: any = this.state;
-    return (
-      <div>
-        <div className="header clearfix">
-          <TopNav />
-        </div>
-        <div className="page page-search" ref={this.refPageBox}>
-          <div className="search-result-list">
-            <List
-              itemLayout="vertical"
-              size="small"
-              dataSource={searchData.subjects}
-              renderItem={(item: any, index: number) => {
-                let { images, title, id } = item;
-                return (
-                  <List.Item
-                    className="list-item"
-                    key={id}>
-                    <List.Item.Meta
-                      avatar={
-                        <Link to={`/detail/${id}`}>
-                          <img alt="logo" className="item-img" src={images.medium} />
-                        </Link>}
-                      title={title}
-                      description={
-                        <div className="desc">
-                          {item.directors.length > 0 &&
-                            <div className="directors">
-                              <label>导演：</label>
-                              {
-                                item.directors.map((item: any, index: number) => {
-                                  return <a key={index} className="person">{item.name}</a>
-                                })
-                              }
-                            </div>
-                          }
-                          {item.casts.length > 0 &&
-                            <div className="actors">
-                              <label>演员：</label>
-                              {
-                                item.casts.map((item: any, index: number) => {
-                                  let split = "";
-                                  if (index !== 0) {
-                                    split = "/";
-                                  }
-                                  return (
-                                    <span key={index}>
-                                      {split}
-                                      <a className="person">{item.name}</a>
-                                    </span>
-                                  );
-                                })
-                              }
-                            </div>
-                          }
-                          {item.genres.length > 0 &&
-                            <div className="tags">
-                              <label>标签：</label>
-                              {
-                                item.genres.map((tag: string, index: number) => {
-                                  let split = "";
-                                  if (index !== 0) {
-                                    split = "/";
-                                  }
-                                  return (
-                                    <span key={index}>
-                                      {split}
-                                      <a className="person">{tag}</a>
-                                    </span>
-                                  );
-                                })
-                              }
-                            </div>
-                          }
-                        </div>
-                      }
-                    />
-                  </List.Item>
-                )
-              }} />
-            <Pagination onChange={this.changeSearchData} total={searchData.total} />
-          </div>
-          <Affix offsetTop={100} className="rate-box">
-            <div ref={this.refRateBox}>
-              <div className="line-raw">
-                <h2 className="raw-title">热映榜</h2>
-              </div>
-              <ul className="goodbox">
-                {
-                  isLoadingHotShow ?
-                    <ListSkeleton row={2} /> :
-                    hotShowList.map((item: any, index: number) => {
-                      let { id, title, rating } = item;
-                      let { average } = rating;
-                      return (
-                        <li className="goodbox-rate" key={index}>
-                          <Link to={`/detail/${id}`}>
-                            <h3 className="title">{title}</h3>
-                            <span className="rank">{index + 1}</span>
-                            <span className="box">{average} 分</span>
-                          </Link>
-                        </li>
-                      );
-                    })
-                }
-              </ul>
-            </div>
-          </Affix>
-        </div>
-        <Footer />
+  return (
+    <div>
+      <div className="header clearfix">
+        <TopNav />
       </div>
-    );
-  }
-}
+      <div className="page page-search" ref={refPageBox}>
+        <div className="search-result-list">
+          <List
+            itemLayout="vertical"
+            size="small"
+            dataSource={searchData.subjects}
+            renderItem={(item: any, index: number) => {
+              let { images, title, id } = item;
+              return (
+                <List.Item
+                  className="list-item"
+                  key={id}>
+                  <List.Item.Meta
+                    avatar={
+                      <Link to={`/detail/${id}`}>
+                        <img alt="logo" className="item-img" src={images.medium} />
+                      </Link>}
+                    title={title}
+                    description={
+                      <div className="desc">
+                        {item.directors.length > 0 &&
+                          <div className="directors">
+                            <label>导演：</label>
+                            {
+                              item.directors.map((item: any, index: number) => {
+                                return <a key={index} className="person">{item.name}</a>
+                              })
+                            }
+                          </div>
+                        }
+                        {item.casts.length > 0 &&
+                          <div className="actors">
+                            <label>演员：</label>
+                            {
+                              item.casts.map((item: any, index: number) => {
+                                let split = "";
+                                if (index !== 0) {
+                                  split = "/";
+                                }
+                                return (
+                                  <span key={index}>
+                                    {split}
+                                    <a className="person">{item.name}</a>
+                                  </span>
+                                );
+                              })
+                            }
+                          </div>
+                        }
+                        {item.genres.length > 0 &&
+                          <div className="tags">
+                            <label>标签：</label>
+                            {
+                              item.genres.map((tag: string, index: number) => {
+                                let split = "";
+                                if (index !== 0) {
+                                  split = "/";
+                                }
+                                return (
+                                  <span key={index}>
+                                    {split}
+                                    <a className="person">{tag}</a>
+                                  </span>
+                                );
+                              })
+                            }
+                          </div>
+                        }
+                      </div>
+                    }
+                  />
+                </List.Item>
+              )
+            }} />
+          <Pagination onChange={changeSearchData} total={searchData.total} />
+        </div>
+        <Affix offsetTop={100} className="rate-box">
+          <div ref={refRateBox}>
+            <div className="line-raw">
+              <h2 className="raw-title">热映榜</h2>
+            </div>
+            <ul className="goodbox">
+              {
+                isLoadingHotShow ?
+                  <ListSkeleton row={2} /> :
+                  hotShowList.map((item: any, index: number) => {
+                    let { id, title, rating } = item;
+                    let { average } = rating;
+                    return (
+                      <li className="goodbox-rate" key={index}>
+                        <Link to={`/detail/${id}`}>
+                          <h3 className="title">{title}</h3>
+                          <span className="rank">{index + 1}</span>
+                          <span className="box">{average} 分</span>
+                        </Link>
+                      </li>
+                    );
+                  })
+              }
+            </ul>
+          </div>
+        </Affix>
+      </div>
+      <Footer />
+    </div>
+  );
 
-export default Search;
+};
