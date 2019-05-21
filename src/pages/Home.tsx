@@ -1,33 +1,13 @@
 import React from "react";
-
-import {
-  Card,
-  Tag,
-  Carousel,
-} from 'antd';
-
-import {
-  getHotShowing,
-  getNew,
-  getGoodbox,
-  getWeeklyMovie,
-  getTop250,
-} from "../api";
-
 import { Link } from 'react-router-dom';
-
-import {
-  CardListTop250Skeleton,
-  CardListSkeleton,
-  ListSkeleton,
-} from "../skeletons/Home";
-
+import { Card, Tag, Carousel } from 'antd';
+import { CardListTop250Skeleton, CardListSkeleton, ListSkeleton } from "../skeletons/Home";
 import TopNav from '../components/TopNav';
 import Footer from '../components/Footer';
-
-import '../css/Home.css';
+import { getHotShowing, getNew, getGoodbox, getWeeklyMovie, getTop250 } from "../api";
 import * as _ from "lodash";
 import LazyLoad from "react-lazy-load";
+import '../css/Home.css';
 
 // temp banner
 import imgBanner001 from '../assets/banner-001.jpg';

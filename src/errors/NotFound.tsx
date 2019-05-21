@@ -1,20 +1,19 @@
-import React from 'react';
-import '../css/NotFound.css';
-
-import { useState } from "react";
-
+import React, { useState, useEffect } from 'react';
 import { getWallPaper } from "../api";
+import '../css/NotFound.css';
 
 export default function NotFound() {
   let BASE_URL = "http://cn.bing.com";
   let [src, setSrc] = useState("");
 
-  getWallPaper()
-    .then(({ data }: any) => {
-      let { images } = data;
+  useEffect(() => {
+    getWallPaper()
+      .then(({ data }: any) => {
+        let { images } = data;
 
-      setSrc(BASE_URL + images[0].url);
-    });
+        setSrc(BASE_URL + images[0].url);
+      });
+  }, []);
 
   return (
     <div className="page page-404" style={{

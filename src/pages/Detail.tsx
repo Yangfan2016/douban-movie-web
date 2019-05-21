@@ -1,9 +1,10 @@
 import React from "react";
-import { getDetail } from '../api';
 import { Tag, Statistic, Comment, Avatar, Tooltip, Rate, Icon, Drawer, List, Typography } from 'antd';
 import moment from 'moment';
 import PageSkeleton from '../skeletons/Detail';
+import { getDetail } from '../api';
 import '../css/Detail.css';
+
 
 class Detail extends React.Component {
   galleryBox: any

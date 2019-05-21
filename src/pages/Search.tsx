@@ -16,14 +16,10 @@ export default function (props: any) {
   search = search.slice(1); // ?q=123 -> q=123
   let query: any = reSerialize(search);
   let searchStr = query.q;
-
   let searchPageSize = 5;
-
   let [searchData, setSearchData] = useState<any>({});
-
   let [hotShowList, setHotShowList] = useState([]);
   let [isLoadingHotShow, setIsLoadingHotShow] = useState(true);
-
   let refPageBox: any = useRef();
   let refRateBox: any = useRef();
 

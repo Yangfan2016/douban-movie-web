@@ -7,7 +7,6 @@ import { serialize } from '../utils';
 import '../css/Home.css';
 
 
-
 function TopNav(props: any) {
   let [hostShowTitle, setHostShowTitle] = useState("");
   let [hotShowList, setHotShowList] = useState<any>([]);
