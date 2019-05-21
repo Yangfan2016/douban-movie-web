@@ -2,6 +2,8 @@
 > The proj is constructing...
 
 
+![photo-004](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-movie-web-xm001.png?raw=true)
+
 ### Preview
 
 ![photo-001](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-web-001.png?raw=true)
@@ -58,7 +60,6 @@
 - axios
 - lodash  
 
-![photo-004](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-movie-web-xm001.png?raw=true)
 
 
 ### MIT license
