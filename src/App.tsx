@@ -5,6 +5,7 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 import "antd/dist/antd.css";
 import "./App.css";
+
 import RouterView from './router/RouterView';
 
 moment.locale('zh-cn');
@@ -21,16 +22,14 @@ function routerBeforeEnterHook(path: string) {
   });
 }
 
-class App extends Component {
-  render() {
-    return (
-      <LocaleProvider locale={zhCN}>
-        <div className="App">
-          <RouterView beforeEnter={routerBeforeEnterHook} />
-        </div>
-      </LocaleProvider>
-    );
-  }
+function App() {
+  return (
+    <LocaleProvider locale={zhCN}>
+      <div className="App">
+        <RouterView beforeEnter={routerBeforeEnterHook} />
+      </div>
+    </LocaleProvider>
+  );
 }
 
 export default App;

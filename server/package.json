@@ -1,0 +1,10 @@
+{
+  "name": "douban-movie",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "koa": "^2.7.0"
+  }
+}
