@@ -13,4 +13,6 @@ psd
 thumb
 sketch
 
+
 /build
+/server/build

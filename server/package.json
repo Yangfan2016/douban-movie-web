@@ -1,10 +1,13 @@
 {
-  "name": "douban-movie",
+  "name": "douban-movie-server",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "koa": "^2.7.0"
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "koa-server-http-proxy": "^0.1.0",
+    "koa-static": "^5.0.0"
   }
 }
