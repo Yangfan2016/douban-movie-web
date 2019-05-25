@@ -12,16 +12,12 @@ const PORT = 9876;
 
 
 // views
-router.get("/", async (ctx, next) => {
+router.get("/*", async (ctx, next) => {
   let str = fs.readFileSync(path.resolve(__dirname, "../build/index.html"), "utf-8");
   ctx.response.body = str;
 });
 
-// 404
-// router.get("*", async (ctx, next) => {
-//   ctx.response.redirect("/");
-// })
-
+// proxy
 app.use(proxy('/api', {
   target: 'http://api.douban.com/',
   changeOrigin: true,
@@ -36,7 +32,11 @@ app.use(proxy('/bing', {
     '^/bing': '/', // 重写路径
   },
 }));
-app.use(static(__dirname, "../build"));
+
+// static
+app.use(static(path.resolve(__dirname, "../build")));
+
+// routes
 app.use(router.routes());
 
 app.listen(PORT, () => {
