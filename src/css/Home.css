@@ -35,6 +35,11 @@
   background-size: 100% 100%;
 }
 
+.header .header-bar .slot-title {
+  display: inline-block;
+  margin: 0 0 0 15px;
+}
+
 .header .header-bar .search {
   float: right;
   position: relative;
@@ -286,10 +291,10 @@
 }
 
 .block-weekly .line-raw .spotbox .spot:nth-of-type(1) {
-  top:40%;
+  top: 40%;
   width: 20px;
   height: 50px;
-  background-image: linear-gradient(var(--rankThird),#fff);
+  background-image: linear-gradient(var(--rankThird), #fff);
   border-radius: 10px 10px 0 0;
 }
 
@@ -297,14 +302,14 @@
   top: -30px;
   width: 26px;
   height: 50px;
-  background-image: linear-gradient(var(--rankFirst),#fff);
+  background-image: linear-gradient(var(--rankFirst), #fff);
   border-radius: 13px 13px 0 0;
 }
 
 .block-weekly .line-raw .spotbox .spot:nth-of-type(3) {
   width: 14px;
   height: 50px;
-  background-image: linear-gradient(var(--rankSecond),#fff);
+  background-image: linear-gradient(var(--rankSecond), #fff);
   border-radius: 7px 7px 0 0;
 }
 

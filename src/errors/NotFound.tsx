@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TopNav from '../components/TopNav';
 import { getWallPaper } from "../api";
 import '../css/NotFound.css';
 
@@ -16,10 +17,16 @@ export default function NotFound() {
   }, []);
 
   return (
-    <div className="page page-404" style={{
-      backgroundImage: `url(${src})`,
-    }}>
-      <h1 className="title">404</h1>
-    </div>
+    <>
+      <div className="page page-404" style={{
+        backgroundImage: `url(${src})`,
+      }}>
+      </div>
+      <div className="header header-404 clearfix">
+        <TopNav noAffix slotTitle={
+          <h1 className="page-404-title">404</h1>
+        } />
+      </div>
+    </>
   );
 }

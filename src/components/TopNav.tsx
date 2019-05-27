@@ -89,40 +89,16 @@ function TopNav(props: any) {
     setIsShowSuggestBox(false);
   }
 
-  let getSuggestionBySearch = getContentBySearchDebounce();
-
-  // componentDidMount
-  useEffect(() => {
-    getHotShowing({
-      start: 0,
-      count: 12,
-    })
-      .then(({ data }: any) => {
-        let { subjects } = data;
-
-        let title = subjects.length > 0 ? subjects[0].title : "";
-
-        setHostShowTitle(title);
-        setHotShowList(subjects);
-      });
-
-
-
-    document.addEventListener("click", closeSuggest);
-
-    return () => {
-      // componentWillUnMount
-      document.removeEventListener("click", closeSuggest);
-    }
-  }, []);
-
-  return (
-    <Affix onChange={(isFixed: any) => {
-      setIsTopNavFixed(!!isFixed);
-    }}>
+  function renderTopBar() {
+    return (
       <div className={["header-bar", isTopNavFixed ? "head-bar--fixed" : ""].join(" ")}>
         <div className="bar-container clearfix">
-          <Link to="/home"><div className="logo"></div></Link>
+          <span className="bar-top">
+            <Link to="/home">
+              <div className="logo"></div>
+              <div className="slot-title">{props.slotTitle}</div>
+            </Link>
+          </span>
           <div className="search">
             <div className="search-box">
               <div className="search-btn" onClick={navToSearch}>
@@ -226,6 +202,46 @@ function TopNav(props: any) {
           </div>
         </div>
       </div>
+    );
+  }
+
+  let getSuggestionBySearch = getContentBySearchDebounce();
+
+  // componentDidMount
+  useEffect(() => {
+    getHotShowing({
+      start: 0,
+      count: 12,
+    })
+      .then(({ data }: any) => {
+        let { subjects } = data;
+
+        let title = subjects.length > 0 ? subjects[0].title : "";
+
+        setHostShowTitle(title);
+        setHotShowList(subjects);
+      });
+
+
+
+    document.addEventListener("click", closeSuggest);
+
+    return () => {
+      // componentWillUnMount
+      document.removeEventListener("click", closeSuggest);
+    }
+  }, []);
+
+
+  if (props.noAffix) {
+    return renderTopBar();
+  }
+
+  return (
+    <Affix onChange={(isFixed: any) => {
+      setIsTopNavFixed(!!isFixed);
+    }}>
+      {renderTopBar()}
     </Affix>
   );
 

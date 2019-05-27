@@ -6,9 +6,16 @@
 
 ### Preview
 
+- home
 ![photo-001](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-web-001.png?raw=true)
+- detail
 ![photo-002](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-web-002.png?raw=true)
+- play
 ![photo-003](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-web-003.png?raw=true)
+- search
+![photo-005](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-web-005.png?raw=true)
+- 404
+![photo-006](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-web-006.png?raw=true)
 
 
 ### Todo & Done
@@ -50,7 +57,7 @@
 
 ### Tech
 
-- React
+- React(react-hooks)
 - React-router
 - Typescript  
 ----
@@ -59,7 +66,8 @@
 ----
 - axios
 - lodash  
-
+----
+- Koa
 
 
 ### MIT license

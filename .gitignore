@@ -15,4 +15,5 @@ sketch
 
 
 /build
-/server/build
+# /server/build
+/src/api/mock.js
