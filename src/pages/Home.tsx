@@ -45,7 +45,7 @@ export default function () {
     let count = len / 9 | 0;
     let groupList = new Array(count).fill(0);
 
-    groupList = groupList.map((item: any, index: number) => {
+    groupList = groupList.map((item: number, index: number) => {
       let s = 9 * index;
       let e = s + 9;
       return top250List.slice(s, e);
@@ -94,7 +94,7 @@ export default function () {
       start: 0,
       count: 12,
     })
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects } = data;
 
         setHotShowList(subjects);
@@ -102,7 +102,7 @@ export default function () {
       });
 
     getNew()
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects } = data;
 
         setNewMovieList(subjects);
@@ -110,7 +110,7 @@ export default function () {
       });
 
     getGoodbox()
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects, date } = data;
 
         setBoxLastDate(date);
@@ -119,7 +119,7 @@ export default function () {
       });
 
     getWeeklyMovie()
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects } = data;
 
         setWeeklyBox(subjects);
@@ -129,7 +129,7 @@ export default function () {
     getTop250({
       count: 36,
     })
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects } = data;
 
         setTop250List(subjects);

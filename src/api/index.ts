@@ -1,15 +1,7 @@
 import axios from "axios";
 
-
-declare global {
-  interface Window {
-    cancalXHRList: any
-  }
-}
-
 const BASE_URL = "/api/movie";
 const API_KEY = "0b2bdeda43b5688921839c8ecb20399b";
-
 
 window.cancalXHRList = [];
 
@@ -19,7 +11,7 @@ function http() {
 
   window.cancalXHRList.push(source);
 
-  let instance: any = axios.create({
+  let instance: AxiosInstance = axios.create({
     baseURL: BASE_URL,
     timeout: 3e4,
     params: {
@@ -32,14 +24,14 @@ function http() {
 }
 
 // 热映
-export function getHotShowing(params?: any) {
+export function getHotShowing(params?: iRequestGetData) {
   return http().get("/in_theaters", {
     params,
   });
 }
 
 // top250
-export function getTop250(params?: any) {
+export function getTop250(params?: iRequestGetData) {
   return http().get("/top250", {
     params,
   });
@@ -61,7 +53,7 @@ export function getGoodbox() {
 }
 
 // 搜索条目
-export function getContentBySearch(str: string, params?: any) {
+export function getContentBySearch(str: string, params?: iRequestGetData) {
   return http().get(`/search?q=${str}`, {
     params
   });

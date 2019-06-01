@@ -1,11 +1,7 @@
 import React from "react";
 
-class Box extends React.Component {
-  render() {
-    return (
-      <div>Box page</div>
-    );
-  }
-}
-
-export default Box;
+export default function (props: any) {
+  return (
+    <div>Box page</div>
+  );
+};

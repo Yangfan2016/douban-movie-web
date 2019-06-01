@@ -9,7 +9,7 @@ export default function NotFound() {
 
   useEffect(() => {
     getWallPaper()
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { images } = data;
 
         setSrc(BASE_URL + images[0].url);

@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/banner-blur-bg.7916debb.png"
   },
   {
-    "revision": "251ba47b3656fb2eab6d",
+    "revision": "a5f70785db6600beb39f",
     "url": "/static/css/main.9df64389.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = [
     "url": "/static/media/banner-005.c87197be.jpg"
   },
   {
-    "revision": "c55687fe68e75ffaa373",
-    "url": "/static/js/2.7c164a73.chunk.js"
+    "revision": "e1eb2339fbd7cd9cdc38",
+    "url": "/static/js/2.dbe472bf.chunk.js"
   },
   {
     "revision": "130d74ed3c84b0fe4833be56f68a42e1",
@@ -28,8 +28,8 @@ self.__precacheManifest = [
     "url": "/static/media/douban-logo.22879ba5.png"
   },
   {
-    "revision": "251ba47b3656fb2eab6d",
-    "url": "/static/js/main.db76ee04.chunk.js"
+    "revision": "a5f70785db6600beb39f",
+    "url": "/static/js/main.cd917dde.chunk.js"
   },
   {
     "revision": "0f7e17ec25f713ccdb2c22e7c4d80913",
@@ -48,11 +48,11 @@ self.__precacheManifest = [
     "url": "/static/media/banner-004.d8c44150.jpg"
   },
   {
-    "revision": "c55687fe68e75ffaa373",
+    "revision": "e1eb2339fbd7cd9cdc38",
     "url": "/static/css/2.f6da0e0b.chunk.css"
   },
   {
-    "revision": "9d1f1c1871d1c26480cee9d3c84bed67",
+    "revision": "291b3086219f86bb1d3fa34a5d4f7478",
     "url": "/index.html"
   }
 ];

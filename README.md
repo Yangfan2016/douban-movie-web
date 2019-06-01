@@ -4,6 +4,20 @@
 [![GitHub stars](https://img.shields.io/github/stars/Yangfan2016/douban-movie-web.svg?color=green)](https://github.com/Yangfan2016/douban-movie-web) 
 [![GitHub forks](https://img.shields.io/github/forks/Yangfan2016/douban-movie-web.svg)](https://github.com/Yangfan2016/douban-movie-web)
 
+### Start
+
+```bash
+$ yarn serve
+```
+
+```
+You can now view douban-movie-web in the browser.
+
+  Local: http://localhost:9876/
+
+```
+
+
 ![photo-004](https://github.com/Yangfan2016/PicBed/blob/master/Personal/douban-movie-web-xm001.png?raw=true)
 
 ### Preview

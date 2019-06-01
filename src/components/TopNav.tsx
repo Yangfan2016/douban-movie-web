@@ -6,8 +6,7 @@ import * as _ from "lodash";
 import { serialize } from '../utils';
 import '../css/Home.css';
 
-
-function TopNav(props: any) {
+function TopNav(props: iTopNavProps) {
   let [hostShowTitle, setHostShowTitle] = useState("");
   let [hotShowList, setHotShowList] = useState<any>([]);
   let [suggestList, setSuggestList] = useState<any>([]);
@@ -24,7 +23,7 @@ function TopNav(props: any) {
       searchStr = hostShowTitle;
     }
 
-    let query = {
+    let query:iSearchParams = {
       q: searchStr,
     };
 
@@ -42,12 +41,12 @@ function TopNav(props: any) {
     return cache;
   }
 
-  function addSearchHistory(item: any) {
+  function addSearchHistory(item: iSearchHistory) {
     const MAX_LEN_CACHE_SEARCH = 5;
     const KEY = "SEARCH_H";
     let cache = getSearchHistory().slice(0);
 
-    let isExist = cache.some((c: any) => {
+    let isExist = cache.some((c: iSearchHistory) => {
       return c.id === item.id;
     });
 
@@ -65,7 +64,7 @@ function TopNav(props: any) {
       getContentBySearch(value, {
         count: 5,
       })
-        .then(({ data }: any) => {
+        .then(({ data }: AxiosResponse) => {
           let { subjects } = data;
           setSuggestList(subjects);
         });
@@ -138,7 +137,7 @@ function TopNav(props: any) {
                       <h4 className="panel-title">历史记录</h4>
                       <ul>
                         {
-                          searchHistory.map((item: any, index: number) => {
+                          searchHistory.map((item: iSearchHistory, index: number) => {
                             return (
                               <li className="list-item" key={index}>
                                 <Link to={`/detail/${item.id}`}>
@@ -213,7 +212,7 @@ function TopNav(props: any) {
       start: 0,
       count: 12,
     })
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects } = data;
 
         let title = subjects.length > 0 ? subjects[0].title : "";
@@ -238,7 +237,7 @@ function TopNav(props: any) {
   }
 
   return (
-    <Affix onChange={(isFixed: any) => {
+    <Affix onChange={(isFixed?: boolean) => {
       setIsTopNavFixed(!!isFixed);
     }}>
       {renderTopBar()}

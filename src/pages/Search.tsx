@@ -9,7 +9,7 @@ import { reSerialize } from '../utils';
 import '../css/Search.css';
 
 
-export default function (props: any) {
+export default function (props: iSearchProps) {
 
   let { location } = props;
   let { search } = location;
@@ -20,8 +20,8 @@ export default function (props: any) {
   let [searchData, setSearchData] = useState<any>({});
   let [hotShowList, setHotShowList] = useState([]);
   let [isLoadingHotShow, setIsLoadingHotShow] = useState(true);
-  let refPageBox: any = useRef();
-  let refRateBox: any = useRef();
+  let refPageBox: React.MutableRefObject<any> = useRef();
+  let refRateBox: React.MutableRefObject<any> = useRef();
 
 
   function changeSearchData(current: number) {
@@ -29,7 +29,7 @@ export default function (props: any) {
       count: searchPageSize,
       start: (current - 1) * searchPageSize,
     })
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         setSearchData(data);
       });
   }
@@ -42,7 +42,7 @@ export default function (props: any) {
       start: 0,
       count: 12,
     })
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         let { subjects } = data;
 
         setHotShowList(subjects);

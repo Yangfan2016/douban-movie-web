@@ -3,8 +3,8 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import routerMap from "./config";
 
 
-function CustomRoute(props: any) {
-  let path = props.location.pathname;
+function CustomRoute(props: iRouterViewProps) {
+  let path:string = props.location.pathname;
 
   props.beforeEnter && props.beforeEnter(path);
 
@@ -26,7 +26,7 @@ function CustomRoute(props: any) {
   return <Redirect to='/404' />
 }
 
-export default function (props: any) {
+export default function (props: iRouterViewProps) {
   return (
     <BrowserRouter>
       <>

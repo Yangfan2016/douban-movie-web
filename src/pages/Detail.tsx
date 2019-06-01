@@ -6,7 +6,7 @@ import { getDetail } from '../api';
 import '../css/Detail.css';
 
 
-export default function (props: any) {
+export default function (props: iDetailProps) {
   let { params } = props.match;
 
   let [currentPlayData, setCurrentPlayData] = useState<any>({
@@ -16,7 +16,7 @@ export default function (props: any) {
   let [detailData, setDetailData] = useState<any>({});
   let [isLoadingDetail, setIsLoadingDetail] = useState(true);
   let [isOpenPlayBox, setIsOpenPlayBox] = useState(false);
-  let galleryBox: any = null;
+  let galleryBox: HTMLElement | null = null;
 
   function reCalcGalleryBoxWidth() {
     // 重新计算图片画廊的宽度
@@ -51,7 +51,7 @@ export default function (props: any) {
 
   useEffect(() => {
     getDetail(params.id)
-      .then(({ data }: any) => {
+      .then(({ data }: AxiosResponse) => {
         // 处理下数据
         let average = data.rating.average;
         let [$units, $decimal] = ("" + average).split(".");
