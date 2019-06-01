@@ -72,6 +72,7 @@ export function getWeeklyMovie() {
   return http().get("/weekly");
 }
 
+// 获取每日壁纸
 export function getWallPaper() {
   return axios.get("/bing/HPImageArchive.aspx", {
     params: {
