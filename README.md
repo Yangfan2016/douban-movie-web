@@ -7,6 +7,15 @@
 ### Start
 
 ```bash
+# install fe pkg
+$ yarn
+# build
+$ yarn build
+# install server pkg
+$ cd server 
+$ yarn
+$ cd ../
+# run server
 $ yarn serve
 ```
 

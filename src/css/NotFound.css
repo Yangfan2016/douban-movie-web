@@ -47,11 +47,16 @@
   width: 160px;
 }
 
+.header-404 .header-bar .search {
+  width: 100%;
+}
+
 .header-404 .header-bar .search-list, .header-404 .header-bar .search-box {
   border-radius: 0;
 }
 
 .header-404 .header-bar .search-box {
+  width: 100%;
   background-color: rgba(255, 255, 255, .85);
   box-shadow: none;
   border-color: var(--themeColor);
@@ -63,5 +68,6 @@
 }
 
 .header-404 .header-bar .search-box .search-input {
-  width: 500px;
+  width: calc(100% - 100px);
+  margin: 0;
 }
